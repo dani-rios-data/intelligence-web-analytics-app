@@ -1,0 +1,91 @@
+@use '../_variables' as *
+@use '../base/config' as *
+
+// Responsive text sizes
++mobile
+  .mobile\:text-sm
+    font-size: $font-size-sm
+  .mobile\:text-base
+    font-size: $font-size-base
+  .mobile\:text-lg
+    font-size: $font-size-lg
+
++tablet
+  .tablet\:text-base
+    font-size: $font-size-base
+  .tablet\:text-lg
+    font-size: $font-size-lg
+  .tablet\:text-xl
+    font-size: 1.25rem
+
++desktop
+  .desktop\:text-lg
+    font-size: $font-size-lg
+  .desktop\:text-xl
+    font-size: 1.25rem
+  .desktop\:text-2xl
+    font-size: 1.5rem
+
+// Responsive spacing
++mobile
+  .mobile\:p-2
+    padding: $spacing-2
+  .mobile\:m-2
+    margin: $spacing-2
+
++tablet
+  .tablet\:p-4
+    padding: $spacing-4
+  .tablet\:m-4
+    margin: $spacing-4
+
++desktop
+  .desktop\:p-6
+    padding: $spacing-6
+  .desktop\:m-6
+    margin: $spacing-6
+
+// Responsive layout
++mobile
+  .mobile\:flex-col
+    flex-direction: column
+  .mobile\:items-start
+    align-items: flex-start
+
++tablet
+  .tablet\:flex-row
+    flex-direction: row
+  .tablet\:items-center
+    align-items: center
+
++desktop
+  .desktop\:flex-row
+    flex-direction: row
+  .desktop\:items-center
+    align-items: center
+
+// Responsive grid
++mobile
+  .mobile\:grid-cols-1
+    grid-template-columns: repeat(1, minmax(0, 1fr))
+
++tablet
+  .tablet\:grid-cols-2
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+
++desktop
+  .desktop\:grid-cols-3
+    grid-template-columns: repeat(3, minmax(0, 1fr))
+
+// Responsive gaps
++mobile
+  .mobile\:gap-2
+    gap: $spacing-2
+
++tablet
+  .tablet\:gap-4
+    gap: $spacing-4
+
++desktop
+  .desktop\:gap-6
+    gap: $spacing-6 

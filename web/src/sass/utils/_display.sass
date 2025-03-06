@@ -1,0 +1,93 @@
+@use '../_variables' as *
+@use '../base/config' as *
+
+// Display
+.block
+  display: block
+.inline-block
+  display: inline-block
+.inline
+  display: inline
+.flex
+  display: flex
+.inline-flex
+  display: inline-flex
+.table
+  display: table
+.grid
+  display: grid
+.hidden
+  display: none
+
+// Visibility
+.visible
+  visibility: visible
+.invisible
+  visibility: hidden
+
+// Overflow
+.overflow-auto
+  overflow: auto
+.overflow-hidden
+  overflow: hidden
+.overflow-visible
+  overflow: visible
+.overflow-scroll
+  overflow: scroll
+.overflow-x-auto
+  overflow-x: auto
+.overflow-y-auto
+  overflow-y: auto
+.overflow-x-hidden
+  overflow-x: hidden
+.overflow-y-hidden
+  overflow-y: hidden
+
+// Object fit
+.object-contain
+  object-fit: contain
+.object-cover
+  object-fit: cover
+.object-fill
+  object-fit: fill
+.object-none
+  object-fit: none
+.object-scale-down
+  object-fit: scale-down
+
+// Object position
+.object-bottom
+  object-position: bottom
+.object-center
+  object-position: center
+.object-left
+  object-position: left
+.object-right
+  object-position: right
+.object-top
+  object-position: top
+
+// Responsive display
++mobile
+  .mobile\:hidden
+    display: none
+  .mobile\:block
+    display: block
+  .mobile\:flex
+    display: flex
+
++tablet
+  .tablet\:hidden
+    display: none
+  .tablet\:block
+    display: block
+  .tablet\:flex
+    display: flex
+
++desktop
+  .desktop\:hidden
+    display: none
+  .desktop\:block
+    display: block
+  .desktop\:flex
+    display: flex 

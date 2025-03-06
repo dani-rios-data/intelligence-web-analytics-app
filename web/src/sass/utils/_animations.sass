@@ -1,0 +1,56 @@
+@use '../_variables' as *
+
+@keyframes pulse
+  0%, 100%
+    opacity: 1
+  50%
+    opacity: 0.5
+
+@keyframes spin
+  to
+    transform: rotate(360deg)
+
+.animate
+  &-pulse
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite
+  &-spin
+    animation: spin 1s linear infinite
+
+.transition
+  &-all
+    transition-property: all
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
+    transition-duration: 150ms
+
+.duration
+  &-300
+    transition-duration: 300ms
+  &-500
+    transition-duration: 500ms
+  &-700
+    transition-duration: 700ms
+  &-1000
+    transition-duration: 1000ms
+
+.delay
+  &-200
+    transition-delay: 200ms
+  &-400
+    transition-delay: 400ms
+  &-600
+    transition-delay: 600ms
+
+.transform
+  transform: translateZ(0)
+  &-hover
+    &-scale:hover
+      transform: scale(1.05)
+    &-translate-x:hover
+      transform: translateX(0.5rem)
+
+.group:hover
+  .group-hover
+    &-translate-x
+      transform: translateX(0.5rem)
+    &-text-yellow
+      color: #fcd34d 

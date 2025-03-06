@@ -1,0 +1,499 @@
+@use '../../_variables' as *
+@use "sass:color"
+
+.sentiment
+  &-container
+    min-height: 100vh
+    display: flex
+    flex-direction: column
+    background-color: $white
+    color: $gray-900
+
+  &-nav
+    background-color: $black
+    padding: 1rem 2rem
+    position: sticky
+    top: 0
+    z-index: 10
+    
+    &-content
+      display: flex
+      justify-content: space-between
+      align-items: center
+      max-width: 1400px
+      margin: 0 auto
+      width: 100%
+    
+    &-brand
+      font-size: 1.25rem
+      font-weight: 500
+      letter-spacing: 0.5px
+      color: $white
+      
+      span
+        color: $yellow
+
+  &-back-button
+    display: flex
+    align-items: center
+    gap: 0.5rem
+    color: $white
+    font-size: 0.875rem
+    background: none
+    border: none
+    cursor: pointer
+    transition: color 0.2s ease
+    
+    &:hover
+      color: $yellow
+
+  &-content
+    flex: 1
+    max-width: 1200px
+    margin: 0 auto
+    width: 100%
+    padding: 3rem 2rem
+
+  &-header
+    text-align: center
+    margin-bottom: 3rem
+    
+    h1
+      font-size: 2.5rem
+      font-weight: bold
+      color: $gray-900
+      margin-bottom: 1rem
+    
+    p
+      font-size: 1.125rem
+      color: $gray-600
+      max-width: 600px
+      margin: 0 auto
+
+  &-upload
+    &-section
+      max-width: 800px
+      margin: 0 auto
+    
+    &-area
+      border: 2px dashed $gray-300
+      border-radius: 16px
+      padding: 3rem 2rem
+      text-align: center
+      transition: all 0.3s ease
+      background-color: $gray-50
+      position: relative
+      
+      &.drag-active
+        border-color: $yellow
+        background-color: rgba($yellow, 0.05)
+      
+      &.has-error
+        border-color: $danger
+        background-color: rgba($danger, 0.05)
+      
+      &.has-success
+        border-color: $success
+        background-color: rgba($success, 0.05)
+    
+    &-label
+      display: block
+      cursor: pointer
+    
+    &-prompt
+      display: flex
+      flex-direction: column
+      align-items: center
+      gap: 1rem
+      color: $gray-600
+      
+      svg
+        color: $gray-400
+      
+      p
+        font-size: 1.125rem
+        margin: 0
+      
+      span
+        font-size: 0.875rem
+        color: $gray-500
+    
+    &-loading
+      display: flex
+      flex-direction: column
+      align-items: center
+      gap: 1rem
+      color: $gray-600
+      
+      .spinner
+        width: 48px
+        height: 48px
+        border: 4px solid rgba($yellow, 0.1)
+        border-left-color: $yellow
+        border-radius: 50%
+        animation: spin 1s linear infinite
+    
+    &-success
+      display: flex
+      flex-direction: column
+      align-items: center
+      gap: 1rem
+      color: $success
+      
+      p
+        font-size: 1.125rem
+        margin: 0
+        color: $gray-900
+      
+      span
+        font-size: 0.875rem
+        color: $gray-600
+    
+    &-error
+      position: absolute
+      bottom: -2.5rem
+      left: 50%
+      transform: translateX(-50%)
+      background-color: $danger
+      color: $white
+      padding: 0.5rem 1rem
+      border-radius: 8px
+      display: flex
+      align-items: center
+      gap: 0.5rem
+      font-size: 0.875rem
+      white-space: nowrap
+      box-shadow: 0 4px 6px -1px rgba($danger, 0.1), 0 2px 4px -1px rgba($danger, 0.06)
+
+  &-file
+    &-input
+      display: none
+    
+    &-types
+      display: flex
+      justify-content: center
+      gap: 2rem
+      margin-top: 4rem
+    
+    &-type
+      display: flex
+      flex-direction: column
+      align-items: center
+      gap: 0.5rem
+      color: $gray-600
+      
+      svg
+        color: $gray-500
+      
+      span
+        font-size: 0.875rem
+
+  &-column
+    &-selection
+      margin-top: 2rem
+      display: flex
+      flex-direction: column
+      gap: 1.5rem
+      align-items: center
+      justify-content: center
+    
+    &-select
+      min-width: 250px
+      padding: 0.75rem 1rem
+      border: 1px solid $gray-300
+      border-radius: 8px
+      background-color: $white
+      color: $gray-900
+      font-size: 1rem
+      appearance: none
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")
+      background-repeat: no-repeat
+      background-position: right 0.75rem center
+      background-size: 1.25rem
+      cursor: pointer
+      transition: all 0.2s ease
+      
+      &:hover
+        border-color: $gray-400
+      
+      &:focus
+        outline: none
+        border-color: $yellow
+        box-shadow: 0 0 0 2px rgba($yellow, 0.1)
+  
+  &-select
+    &-label
+      display: block
+      font-size: 0.875rem
+      color: $gray-700
+      margin-bottom: 0.5rem
+      font-weight: 500
+
+  &-processing
+    &-options
+      display: flex
+      flex-wrap: wrap
+      gap: 1.5rem
+      width: 100%
+      justify-content: center
+      margin-bottom: 1.5rem
+    
+  &-column-wrapper, &-batch-wrapper
+    display: flex
+    flex-direction: column
+    min-width: 250px
+  
+  &-batch-select
+    @extend .sentiment-column-select
+  
+  &-advanced
+    &-button
+      display: flex
+      align-items: center
+      gap: 0.5rem
+      padding: 0.5rem 1rem
+      background-color: $gray-100
+      color: $gray-700
+      border: 1px solid $gray-300
+      border-radius: 8px
+      font-size: 0.875rem
+      cursor: pointer
+      transition: all 0.2s ease
+      margin-bottom: 1rem
+      
+      &:hover:not(:disabled)
+        background-color: $gray-200
+      
+      &:disabled
+        opacity: 0.5
+        cursor: not-allowed
+    
+    &-options
+      width: 100%
+      padding: 1.5rem
+      background-color: $gray-50
+      border: 1px solid $gray-200
+      border-radius: 8px
+      margin-bottom: 1.5rem
+    
+    &-row
+      display: flex
+      flex-wrap: wrap
+      gap: 1.5rem
+      margin-bottom: 1.5rem
+      justify-content: center
+    
+    &-item
+      display: flex
+      flex-direction: column
+      min-width: 200px
+    
+    &-info
+      display: flex
+      align-items: flex-start
+      gap: 0.75rem
+      padding: 0.75rem
+      background-color: rgba($info, 0.1)
+      border-radius: 8px
+      font-size: 0.875rem
+      color: $gray-700
+      
+      svg
+        color: $info
+        flex-shrink: 0
+        margin-top: 0.125rem
+
+  &-process
+    &-button
+      padding: 0.75rem 2rem
+      background-color: $yellow
+      color: $black
+      border: none
+      border-radius: 8px
+      font-weight: 500
+      font-size: 1rem
+      cursor: pointer
+      display: flex
+      align-items: center
+      gap: 0.75rem
+      transition: all 0.2s ease
+      position: relative
+      
+      &:hover:not(:disabled)
+        background-color: color.scale($yellow, $lightness: -5%)
+        transform: translateY(-1px)
+      
+      &:disabled
+        opacity: 0.5
+        cursor: not-allowed
+      
+      .spinner-small
+        width: 1rem
+        height: 1rem
+        border: 2px solid rgba($black, 0.1)
+        border-left-color: $black
+        border-radius: 50%
+        animation: spin 1s linear infinite
+
+  &-progress
+    &-container
+      position: absolute
+      bottom: -8px
+      left: 0
+      width: 100%
+      height: 4px
+      background-color: rgba($black, 0.1)
+      border-radius: 0 0 8px 8px
+      overflow: hidden
+    
+    &-bar
+      height: 100%
+      background-color: $black
+      transition: width 0.3s ease
+
+  &-success
+    &-actions
+      display: flex
+      flex-direction: column
+      align-items: center
+      gap: 1.5rem
+      padding: 3rem 2rem
+      background-color: $gray-50
+      border-radius: 16px
+      border: 2px dashed $gray-300
+      text-align: center
+      
+      @media (max-width: $breakpoint-sm)
+        padding: 2rem 1rem
+
+  &-reset
+    &-button
+      display: flex
+      align-items: center
+      gap: 0.75rem
+      padding: 0.75rem 1.5rem
+      background-color: $white
+      color: $gray-900
+      border: 1px solid $gray-300
+      border-radius: 8px
+      font-size: 0.875rem
+      font-weight: 500
+      cursor: pointer
+      transition: all 0.2s ease
+      
+      svg
+        transition: transform 0.3s ease
+      
+      &:hover:not(:disabled)
+        border-color: $yellow
+        color: $yellow
+        background-color: rgba($yellow, 0.05)
+        
+        svg
+          transform: rotate(180deg)
+      
+      &:disabled
+        opacity: 0.5
+        cursor: not-allowed
+
+@keyframes spin
+  to
+    transform: rotate(360deg)
+
+@media (max-width: $breakpoint-md)
+  .sentiment
+    &-nav
+      padding: 1rem
+    
+    &-content
+      padding: 2rem 1rem
+    
+    &-header
+      h1
+        font-size: 2rem
+      
+      p
+        font-size: 1rem
+    
+    &-upload
+      &-area
+        padding: 2rem 1rem
+      
+      &-prompt
+        p
+          font-size: 1rem
+      
+      &-error
+        position: relative
+        bottom: auto
+        left: auto
+        transform: none
+        margin-top: 1rem
+        white-space: normal
+        text-align: left
+    
+    &-file-types
+      gap: 1rem
+      flex-wrap: wrap
+    
+    &-advanced
+      &-row
+        flex-direction: column
+        gap: 1rem
+      
+      &-item
+        width: 100% 
+
+.sentiment-nav-actions
+  margin-left: auto
+  display: flex
+  align-items: center
+  gap: 1rem
+
+.sentiment-debug-toggle
+  background: none
+  border: none
+  color: #666
+  cursor: pointer
+  padding: 0.5rem
+  border-radius: 0.25rem
+  transition: all 0.2s ease
+  display: flex
+  align-items: center
+  justify-content: center
+
+  &:hover
+    background: rgba(0, 0, 0, 0.05)
+
+  &.active
+    color: #007bff
+    background: rgba(0, 123, 255, 0.1)
+
+.sentiment-debug-logs
+  background: #f8f9fa
+  border: 1px solid #dee2e6
+  border-radius: 0.5rem
+  margin: 1rem 0
+  padding: 1rem
+  max-height: 300px
+  overflow-y: auto
+
+  h3
+    margin: 0 0 1rem
+    color: #495057
+    font-size: 1rem
+    font-weight: 600
+
+.sentiment-debug-log-content
+  font-family: monospace
+  font-size: 0.875rem
+  color: #495057
+
+.sentiment-debug-log-entry
+  padding: 0.25rem 0
+  border-bottom: 1px solid #dee2e6
+  white-space: pre-wrap
+  word-break: break-all
+
+  &:last-child
+    border-bottom: none 

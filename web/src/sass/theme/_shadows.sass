@@ -1,0 +1,52 @@
+@use '../_variables' as *
+
+// Box shadows
+.shadow-none
+  box-shadow: none
+
+.shadow-sm
+  box-shadow: $shadow-sm
+
+.shadow
+  box-shadow: $shadow
+
+.shadow-md
+  box-shadow: $shadow-md
+
+.shadow-lg
+  box-shadow: $shadow-lg
+
+// Focus shadows
+.focus-shadow
+  &:focus
+    box-shadow: 0 0 0 3px rgba($primary, 0.5)
+    outline: none
+
+.focus-shadow-danger
+  &:focus
+    box-shadow: 0 0 0 3px rgba($danger, 0.5)
+    outline: none
+
+.focus-shadow-success
+  &:focus
+    box-shadow: 0 0 0 3px rgba($success, 0.5)
+    outline: none
+
+// Hover shadows
+.hover-shadow
+  @extend .transition-all
+  &:hover
+    box-shadow: $shadow-lg
+
+// Ring shadows
+.ring-1
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05)
+.ring-2
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05)
+
+// Custom shadows
+.shadow-inner
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)
+
+.shadow-outline
+  box-shadow: 0 0 0 3px rgba($primary, 0.5) 

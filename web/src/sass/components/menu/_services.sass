@@ -1,0 +1,323 @@
+@use '../../_variables' as *
+@use "sass:color"
+
+@keyframes badgePulse
+  from
+    transform: rotate(-45deg) translate(-30%, -50%) scale(1)
+    opacity: 1
+  50%
+    transform: rotate(-45deg) translate(-30%, -50%) scale(1.05)
+    opacity: 0.9
+  to
+    transform: rotate(-45deg) translate(-30%, -50%) scale(1)
+    opacity: 1
+
+.services-container
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+  background-color: $black
+  color: $white
+  padding: 2rem 4rem
+  position: relative
+  overflow-x: hidden
+
+.services-nav
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: 4rem
+  padding: 1rem 2rem
+  border-bottom: 1px solid rgba($white, 0.1)
+  
+  &-brand
+    font-size: 1.25rem
+    font-weight: 500
+    letter-spacing: 0.5px
+    
+    span
+      color: $yellow
+
+  &-signout
+    display: flex
+    align-items: center
+    gap: 0.5rem
+    padding: 0.5rem 1rem
+    border: 1px solid rgba($white, 0.2)
+    border-radius: 8px
+    background: none
+    color: $white
+    font-size: 0.875rem
+    cursor: pointer
+    transition: all 0.2s ease
+    
+    &:hover
+      background: rgba($white, 0.1)
+      border-color: rgba($white, 0.3)
+    
+    &:disabled
+      opacity: 0.5
+      cursor: not-allowed
+      
+    svg
+      transition: transform 0.2s ease
+    
+    &:hover svg
+      transform: translateX(2px)
+
+.services-content
+  flex: 1
+  display: flex
+  flex-direction: column
+  align-items: center
+  max-width: 1400px
+  margin: 0 auto
+  width: 100%
+  text-align: center
+  padding: 0 1rem
+  
+  h1
+    font-size: 1rem
+    font-weight: normal
+    margin-bottom: 1rem
+    color: $white
+    opacity: 0.8
+  
+  h2
+    font-size: 3rem
+    font-weight: bold
+    margin-bottom: 3rem
+    line-height: 1.2
+    
+    span
+      color: $yellow
+
+.services-subtitle
+  color: $gray-500
+  font-size: 1.125rem
+  margin-bottom: 4rem
+  max-width: 600px
+
+.services-grid
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr))
+  gap: 2rem
+  width: 100%
+
+.service-card
+  display: flex
+  align-items: flex-start
+  justify-content: space-between
+  background: rgba($white, 0.03)
+  border: 1px solid rgba($white, 0.1)
+  border-radius: 16px
+  padding: 2rem
+  text-align: left
+  cursor: pointer
+  transition: all 0.3s ease
+  position: relative
+  overflow: hidden
+  
+  &::before
+    content: ''
+    position: absolute
+    inset: 0
+    background: linear-gradient(45deg, rgba($yellow, 0.1), transparent)
+    opacity: 0
+    transition: opacity 0.3s ease
+  
+  &.coming-soon
+    cursor: not-allowed
+    opacity: 0.7
+    
+    &:hover
+      transform: none
+      border-color: rgba($white, 0.1)
+      
+      .service-card-icon
+        color: $white
+      
+      .service-card-arrow
+        transform: none
+        color: $gray-500
+  
+  &.selected
+    border-color: $yellow
+    transform: scale(0.98)
+    
+    &::before
+      opacity: 1
+  
+  &:hover:not(.coming-soon)
+    transform: translateY(-4px)
+    background: rgba($white, 0.05)
+    border-color: $yellow
+    
+    &::before
+      opacity: 1
+    
+    .service-card-icon
+      color: $yellow
+      transform: scale(1.1)
+    
+    .service-card-arrow
+      transform: translateX(4px)
+  
+  &-content
+    flex: 1
+    margin-right: 2rem
+  
+  &-icon-wrapper
+    position: relative
+    margin-bottom: 1.5rem
+    display: inline-block
+    padding-top: 2.5rem
+    padding-left: 0
+    
+    .service-card-icon
+      width: 2.5rem
+      height: 2.5rem
+      color: $white
+      transition: all 0.3s ease
+      position: relative
+      z-index: 1
+  
+  &-badge
+    position: absolute
+    top: 0
+    left: 0
+    background: $yellow
+    color: $black
+    font-size: 0.75rem
+    padding: 0.5rem 2rem
+    transform: rotate(-45deg) translate(-30%, -50%)
+    box-shadow: 0 2px 8px rgba($black, 0.2)
+    z-index: 2
+    white-space: nowrap
+    font-weight: 700
+    letter-spacing: 0.5px
+    text-transform: uppercase
+    animation: badgePulse 2s infinite ease-in-out
+    transform-origin: center
+    border: none
+    
+    &::before
+      content: ''
+      position: absolute
+      inset: 0
+      background: linear-gradient(135deg, color.scale($yellow, $lightness: -5%), $yellow)
+      z-index: -1
+  
+  &-title
+    font-size: 1.5rem
+    font-weight: 600
+    margin-bottom: 1rem
+    color: $white
+    line-height: 1.2
+  
+  &-description
+    font-size: 1rem
+    color: $gray-400
+    line-height: 1.6
+    margin-bottom: 1.5rem
+  
+  &-features
+    list-style: none
+    padding: 0
+    margin: 0
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
+    gap: 0.75rem
+    
+    li
+      display: flex
+      align-items: center
+      gap: 0.5rem
+      color: $gray-500
+      font-size: 0.875rem
+      
+      svg
+        color: $yellow
+        opacity: 0.8
+  
+  &-arrow
+    color: $gray-500
+    transition: all 0.3s ease
+    margin-top: 0.5rem
+
+.services-footer
+  text-align: center
+  font-size: 0.75rem
+  color: $gray-500
+  margin-top: 6rem
+  padding-top: 2rem
+  border-top: 1px solid rgba($white, 0.1)
+  
+  p
+    margin: 0.25rem 0
+
+@media (max-width: $breakpoint-lg)
+  .services-container
+    padding: 2rem
+  
+  .services-grid
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr))
+
+@media (max-width: $breakpoint-md)
+  .services-container
+    padding: 1.5rem
+  
+  .services-nav
+    margin-bottom: 3rem
+    
+    &-brand
+      font-size: 1rem
+  
+  .services-content
+    h2
+      font-size: 2.25rem
+      margin-bottom: 2rem
+  
+  .services-subtitle
+    margin-bottom: 2.5rem
+    font-size: 1rem
+  
+  .services-grid
+    grid-template-columns: 1fr
+    gap: 1.5rem
+  
+  .service-card
+    padding: 1.5rem
+    
+    &-content
+      margin-right: 1.5rem
+    
+    &-icon-wrapper
+      margin-bottom: 1.25rem
+      
+      .service-card-icon
+        width: 2rem
+        height: 2rem
+    
+    &-title
+      font-size: 1.25rem
+    
+    &-features
+      grid-template-columns: 1fr
+
+@media (max-width: $breakpoint-sm)
+  .services-container
+    padding: 1rem
+  
+  .services-content
+    h2
+      font-size: 2rem
+    
+  .service-card
+    padding: 1.25rem
+    
+    &-content
+      margin-right: 1rem
+    
+    &-description
+      font-size: 0.875rem

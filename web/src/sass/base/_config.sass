@@ -1,0 +1,68 @@
+@use '../_variables' as *
+@use 'sass:color'
+@use 'sass:math'
+
+// Breakpoint mixins
+=mobile
+  @media (max-width: #{$breakpoint-sm - 1px})
+    @content
+
+=tablet
+  @media (min-width: #{$breakpoint-sm}) and (max-width: #{$breakpoint-lg - 1px})
+    @content
+
+=desktop
+  @media (min-width: #{$breakpoint-lg})
+    @content
+
+// Typography mixins
+=heading($size)
+  font-weight: $font-weight-bold
+  line-height: 1.2
+  @if $size == 'h1'
+    font-size: 2.5rem
+  @else if $size == 'h2'
+    font-size: 2rem
+  @else if $size == 'h3'
+    font-size: 1.75rem
+  @else if $size == 'h4'
+    font-size: 1.5rem
+  @else if $size == 'h5'
+    font-size: 1.25rem
+  @else
+    font-size: 1rem
+
+// Animation mixins
+=transition($property: all, $duration: 0.3s, $timing: ease-in-out)
+  transition: $property $duration $timing
+
+=animate($name, $duration: 1s, $timing: ease, $iteration: 1)
+  animation: $name $duration $timing $iteration
+
+// Layout mixins
+=container
+  width: 100%
+  margin-right: auto
+  margin-left: auto
+  padding-right: $spacing-4
+  padding-left: $spacing-4
+  @media (min-width: $breakpoint-sm)
+    max-width: 640px
+  @media (min-width: $breakpoint-md)
+    max-width: 768px
+  @media (min-width: $breakpoint-lg)
+    max-width: 1024px
+  @media (min-width: $breakpoint-xl)
+    max-width: 1280px
+
+=flex-center
+  display: flex
+  align-items: center
+  justify-content: center
+
+// Utility functions
+@function shade($color, $percentage)
+  @return color.adjust($color, $lightness: -$percentage)
+
+@function tint($color, $percentage)
+  @return color.adjust($color, $lightness: $percentage) 
