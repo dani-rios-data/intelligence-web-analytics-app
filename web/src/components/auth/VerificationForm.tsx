@@ -7,6 +7,7 @@ import { verifyCode, resendVerificationCode } from '@/utils/auth/config';
 import { AUTH_CONFIG } from '@/utils/auth/config';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { useThrottle } from '@/hooks/useThrottle';
+import { supabase } from '@/utils/supabaseClient';
 import '@/sass/components/auth/_verification.sass';
 
 export default function VerificationForm() {
@@ -29,6 +30,19 @@ export default function VerificationForm() {
     } else {
       setEmail(storedEmail);
     }
+  }, [router]);
+
+  // Verificar si hay una sesión activa
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data?.session) {
+        // Si ya hay una sesión activa, redirigir al usuario
+        router.push(AUTH_CONFIG.ROUTES.SERVICES);
+      }
+    };
+    
+    checkSession();
   }, [router]);
 
   const handleCodeChange = useCallback((index: number, value: string) => {
@@ -86,24 +100,46 @@ export default function VerificationForm() {
     try {
       trackEvent(AUTH_CONFIG.ANALYTICS.EVENTS.VERIFICATION_ATTEMPT, { email });
       
-      const response = await verifyCode(email, code);
+      // Usar directamente la API de Supabase para verificar el código
+      const { data, error } = await supabase.auth.verifyOtp({
+        email,
+        token: code,
+        type: 'email'
+      });
       
-      if (response.success) {
-        setSuccessMsg(AUTH_CONFIG.SUCCESS_MESSAGES.VERIFICATION_SUCCESS);
-        trackEvent(AUTH_CONFIG.ANALYTICS.EVENTS.VERIFICATION_SUCCESS, { email });
-        sessionStorage.removeItem('verifying_email');
+      if (error) {
+        if (error.message.includes('Invalid token') || error.message.includes('Invalid otp')) {
+          setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.INVALID_CODE);
+        } else if (error.message.includes('Token has expired')) {
+          setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.VERIFICATION_EXPIRED);
+        } else {
+          setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.VERIFICATION_ERROR);
+        }
         
-        // Redirección al menú de servicios después de un breve delay
-        setTimeout(() => {
-          router.push(AUTH_CONFIG.ROUTES.SERVICES);
-        }, 1500);
-      } else {
-        setErrorMsg(response.message || AUTH_CONFIG.ERROR_MESSAGES.INVALID_CODE);
         trackEvent(AUTH_CONFIG.ANALYTICS.EVENTS.VERIFICATION_ERROR, {
-          error: response.message || AUTH_CONFIG.ERROR_MESSAGES.INVALID_CODE,
+          error: error.message,
           email
         });
+        
+        // Limpiar código en caso de error
+        setVerificationCode(['', '', '', '', '', '']);
+        codeInputs.current[0]?.focus();
+        return;
       }
+      
+      if (!data?.session) {
+        setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.SESSION_ERROR);
+        return;
+      }
+      
+      setSuccessMsg(AUTH_CONFIG.SUCCESS_MESSAGES.VERIFICATION_SUCCESS);
+      trackEvent(AUTH_CONFIG.ANALYTICS.EVENTS.VERIFICATION_SUCCESS, { email });
+      sessionStorage.removeItem('verifying_email');
+      
+      // Redirección al menú de servicios después de un breve delay
+      setTimeout(() => {
+        router.push(AUTH_CONFIG.ROUTES.SERVICES);
+      }, AUTH_CONFIG.TIMEOUTS.REDIRECT_DELAY);
     } catch (error) {
       console.error('Error in verification:', error);
       trackEvent(AUTH_CONFIG.ANALYTICS.EVENTS.VERIFICATION_ERROR, {
@@ -113,7 +149,7 @@ export default function VerificationForm() {
       
       setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.GENERIC_ERROR);
       
-      // Clear code on error
+      // Limpiar código en caso de error
       setVerificationCode(['', '', '', '', '', '']);
       codeInputs.current[0]?.focus();
     } finally {
