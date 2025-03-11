@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
         TBWA Intelligence Analytics Platform
       </div>
       <div className={styles.footerCopyright}>
-        © 2025 TBWA Intelligence. All rights reserved.
+        © {new Date().getFullYear()} TBWA Intelligence. All rights reserved.
       </div>
     </footer>
   );

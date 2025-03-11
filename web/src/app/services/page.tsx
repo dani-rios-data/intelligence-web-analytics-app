@@ -5,6 +5,7 @@ import { Database, BarChart2, ArrowRight, LogOut, Home, Settings, HelpCircle, Us
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import styles from './styles.module.scss';
+import Footer from '@/components/Footer';
 
 interface ServiceCardProps {
   icon: React.ReactNode;
@@ -374,10 +375,7 @@ const ServicesPage = () => {
         </div>
       </main>
 
-      <footer className={styles.footer}>
-        <p className={styles.footerBrand}>TBWA Intelligence Analytics Platform</p>
-        <p>© 2025 TBWA Intelligence. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };

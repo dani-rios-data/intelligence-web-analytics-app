@@ -1,12 +1,19 @@
 {
-  "name": "web",
-  "version": "0.1.0",
+  "name": "tbwa-intelligence-platform",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write \"**/*.{ts,tsx,scss,css,json}\"",
+    "analyze": "cross-env ANALYZE=true next build",
+    "clean": "rimraf .next out",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "postinstall": "husky install"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",
@@ -27,19 +34,39 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^15.0.0",
     "@types/archiver": "^6.0.3",
     "@types/formidable": "^3.4.5",
+    "@types/jest": "^29.5.12",
     "@types/node": "^20",
     "@types/papaparse": "^5.3.15",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.20",
+    "cross-env": "^7.0.3",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.0.11",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "lint-staged": "^15.2.2",
     "postcss": "^8.5.3",
     "postcss-import": "^16.1.0",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
     "sass": "^1.85.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,scss,md}": [
+      "prettier --write"
+    ]
   }
 }

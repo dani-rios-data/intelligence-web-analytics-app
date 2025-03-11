@@ -8,6 +8,7 @@ import { AUTH_CONFIG } from '@/utils/auth/config';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { useThrottle } from '@/hooks/useThrottle';
 import { supabase } from '@/utils/supabaseClient';
+import Footer from '@/components/Footer';
 import '@/sass/components/auth/_verification.sass';
 
 export default function VerificationForm() {
@@ -34,6 +35,11 @@ export default function VerificationForm() {
 
   // Verificar si hay una sesión activa
   useEffect(() => {
+    // Añadir un flag para saber si venimos de la página de inicio de sesión
+    const isComingFromSignIn = sessionStorage.getItem('coming_from_signin') === 'true';
+    // Flag para saber si estamos esperando la verificación del código
+    const isWaitingForVerification = sessionStorage.getItem('waiting_for_verification') === 'true';
+    
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       
@@ -44,25 +50,49 @@ export default function VerificationForm() {
       console.log('Checking session:', {
         hasSession: !!session,
         isVerified,
-        userMetadata: session?.user?.user_metadata
+        userMetadata: session?.user?.user_metadata,
+        isComingFromSignIn,
+        isWaitingForVerification
       });
       
-      if (session && isVerified) {
-        console.log('Session is verified, redirecting to services');
+      // Si venimos del inicio de sesión, siempre queremos que el usuario ingrese el código
+      // independientemente del estado de la sesión
+      if (isComingFromSignIn) {
+        console.log('Coming from sign in, waiting for code verification');
+        // Marcar que estamos esperando la verificación
+        sessionStorage.setItem('waiting_for_verification', 'true');
+        // No redirigir, quedarse en la página de verificación
+      }
+      // Solo redirigir a servicios si la sesión está verificada Y no estamos esperando verificación
+      else if (session && isVerified && !isWaitingForVerification) {
+        console.log('Session is verified and not waiting for verification, redirecting to services');
+        // Limpiar la bandera cuando se redirige a los servicios
+        sessionStorage.removeItem('coming_from_signin');
+        sessionStorage.removeItem('waiting_for_verification');
         router.push(AUTH_CONFIG.ROUTES.SERVICES);
-      } else if (session) {
-        console.log('Session exists but not verified, staying on verification page');
-        // Si hay sesión pero no está verificada, nos quedamos en la página de verificación
-      } else {
-        console.log('No session, redirecting to sign in');
+      } 
+      // Si hay sesión o estamos esperando verificación, quedarse en la página
+      else if (session || isWaitingForVerification) {
+        console.log('Session exists or waiting for verification, staying on verification page');
+        // Si hay sesión o estamos esperando verificación, nos quedamos en la página de verificación
+      } 
+      // Sin sesión y sin esperar verificación, redirigir al inicio de sesión
+      else {
+        console.log('No session and not waiting for verification, redirecting to sign in');
+        sessionStorage.removeItem('waiting_for_verification');
         router.push(AUTH_CONFIG.ROUTES.SIGN_IN);
       }
     };
     
-    checkSession();
+    // Esperar un momento antes de verificar la sesión para dar tiempo a que se establezca
+    const timer = setTimeout(() => {
+      checkSession();
+    }, 500);
     
     // Configurar un listener para cambios en la sesión
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      // Si estamos esperando verificación, no permitir redirecciones automáticas
+      const isWaitingForVerification = sessionStorage.getItem('waiting_for_verification') === 'true';
       // Verificar si el usuario está verificado usando los metadatos
       const isVerified = session?.user?.user_metadata?.is_verified === true;
       
@@ -71,22 +101,33 @@ export default function VerificationForm() {
         event,
         hasSession: !!session,
         isVerified,
-        userMetadata: session?.user?.user_metadata
+        userMetadata: session?.user?.user_metadata,
+        isWaitingForVerification
       });
       
-      if (event === 'SIGNED_OUT' || !session) {
+      if (event === 'SIGNED_OUT' || (!session && !isComingFromSignIn && !isWaitingForVerification)) {
+        // Limpiar las banderas cuando se redirige al inicio de sesión
+        sessionStorage.removeItem('coming_from_signin');
+        sessionStorage.removeItem('waiting_for_verification');
         router.push(AUTH_CONFIG.ROUTES.SIGN_IN);
-      } else if (event === 'SIGNED_IN' && isVerified) {
+      } 
+      // Solo redirigir si está verificado Y no estamos esperando verificación manual
+      else if (event === 'SIGNED_IN' && isVerified && !isWaitingForVerification) {
         console.log('User signed in and verified, redirecting to services');
+        // Limpiar las banderas cuando se redirige a los servicios
+        sessionStorage.removeItem('coming_from_signin');
+        sessionStorage.removeItem('waiting_for_verification');
         router.push(AUTH_CONFIG.ROUTES.SERVICES);
       } else if (event === 'SIGNED_IN') {
-        console.log('User signed in but not verified, staying on verification page');
+        console.log('User signed in but not verified or waiting for verification, staying on verification page');
         // No hacer nada, mantener al usuario en la página de verificación
       }
     });
     
     return () => {
+      clearTimeout(timer);
       subscription.unsubscribe();
+      // No limpiar la bandera al desmontar el componente para mantenerla durante las redirecciones
     };
   }, [router]);
 
@@ -202,6 +243,10 @@ export default function VerificationForm() {
       
       // Limpiar email de verificación
       sessionStorage.removeItem('verifying_email');
+      // Limpiar la bandera coming_from_signin
+      sessionStorage.removeItem('coming_from_signin');
+      // Limpiar la bandera waiting_for_verification
+      sessionStorage.removeItem('waiting_for_verification');
       
       // Redirección después de un breve delay
       setTimeout(() => {
@@ -239,6 +284,11 @@ export default function VerificationForm() {
       
       if (!result.success) {
         setErrorMsg(result.message || 'Failed to resend code. Please try again.');
+      } else {
+        // Asegurar que la bandera waiting_for_verification está activada
+        sessionStorage.setItem('waiting_for_verification', 'true');
+        // Mensaje de éxito
+        setSuccessMsg(result.message || 'Verification code resent. Please check your email.');
       }
     } catch (err) {
       setErrorMsg('An unexpected error occurred. Please try again.');
@@ -249,6 +299,10 @@ export default function VerificationForm() {
   }, [email, loading]);
 
   const handleBackToSignIn = useCallback(() => {
+    // Limpiar todas las banderas
+    sessionStorage.removeItem('verifying_email');
+    sessionStorage.removeItem('coming_from_signin');
+    sessionStorage.removeItem('waiting_for_verification');
     router.push(AUTH_CONFIG.ROUTES.SIGN_IN);
   }, [router]);
 
@@ -330,14 +384,7 @@ export default function VerificationForm() {
         </div>
       </div>
 
-      <footer className="common-footer">
-        <div className="footer-brand">
-          TBWA Intelligence Analytics Platform
-        </div>
-        <div className="footer-copyright">
-          © {new Date().getFullYear()} TBWA Intelligence. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 } 

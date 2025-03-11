@@ -7,6 +7,7 @@ import { supabase } from '@/utils/supabaseClient';
 import { AUTH_CONFIG } from '@/utils/auth/config';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { useThrottle } from '@/hooks/useThrottle';
+import Footer from '@/components/Footer';
 import '@/sass/components/auth/_signin.sass';
 
 export default function SignInForm() {
@@ -159,6 +160,7 @@ export default function SignInForm() {
       trackEvent(AUTH_CONFIG.ANALYTICS.EVENTS.SIGN_IN_SUCCESS, { email });
       setSuccessMsg(AUTH_CONFIG.SUCCESS_MESSAGES.MAGIC_LINK_SENT);
       sessionStorage.setItem('verifying_email', normalizedEmail);
+      sessionStorage.setItem('coming_from_signin', 'true');
       setIsResendDisabled(true);
       setResendCountdown(AUTH_CONFIG.VERIFICATION_CODE.RESEND_DELAY / 1000);
       setFailedAttempts(0);
@@ -311,14 +313,7 @@ export default function SignInForm() {
         </div>
       </main>
 
-      <footer className="common-footer">
-        <div className="footer-brand">
-          TBWA Intelligence Analytics Platform
-        </div>
-        <div className="footer-copyright">
-          © {new Date().getFullYear()} TBWA Intelligence. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 } 

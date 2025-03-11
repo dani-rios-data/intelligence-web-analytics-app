@@ -1,8 +1,9 @@
 import React from 'react';
+import { ArrowRight } from 'lucide-react';
 import ServiceSection from './ServiceSection';
 import QuickGuide from './QuickGuide';
+import Footer from '@/components/Footer';
 import styles from '../../styles/ServiceGuide.module.sass';
-import { ArrowRight } from 'lucide-react';
 
 // Definir tipos para los servicios
 interface ServiceFeature {
@@ -102,14 +103,7 @@ const ServiceGuide: React.FC = () => {
         <QuickGuide decisionGuide={decisionGuide} />
       </div>
 
-      <footer className="common-footer">
-        <div className="footer-brand">
-          TBWA Intelligence Analytics Platform
-        </div>
-        <div className="footer-copyright">
-          © 2025 TBWA Intelligence. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
