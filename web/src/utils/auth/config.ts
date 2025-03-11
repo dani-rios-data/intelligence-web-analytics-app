@@ -32,6 +32,8 @@ export const AUTH_CONFIG = {
     SESSION_EXPIRED: 'Your session has expired. Please sign in again.',
     VERIFICATION_EXPIRED: 'Invalid verification code. Please try again.',
     INVALID_CODE: 'Invalid verification code. Please check and try again.',
+    VERIFICATION_ERROR: 'Error verifying code. Please try again.',
+    SESSION_ERROR: 'Failed to establish session. Please try again.',
   },
   SUCCESS_MESSAGES: {
     MAGIC_LINK_SENT: 'Verification code sent. Please check your email.',
@@ -54,9 +56,9 @@ export const AUTH_CONFIG = {
     MAX_ATTEMPTS: 3,
   },
   SECURITY: {
-    MAX_FAILED_ATTEMPTS: 5,
-    LOCKOUT_DURATION: 300, // 5 minutes in seconds
-    SESSION_DURATION: 3600, // 1 hour in seconds
+    MAX_FAILED_ATTEMPTS: 10,
+    LOCKOUT_DURATION: 60,
+    SESSION_DURATION: 3600,
   }
 } as const;
 

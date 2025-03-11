@@ -1,0 +1,152 @@
+@import 'variables'
+
+.guideContainer
+  background-color: $dark-bg
+  color: $text-light
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+
+.header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding: $spacing-md $spacing-xl
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1)
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  background-color: $dark-bg
+  z-index: 100
+
+.logo
+  display: flex
+  align-items: center
+  font-weight: bold
+  font-size: 1.5rem
+  
+  .logoAccent
+    color: $primary-color
+
+.closeBtn
+  display: flex
+  align-items: center
+  color: $text-secondary
+  text-decoration: none
+  transition: color 0.3s
+  background: none
+  border: none
+  cursor: pointer
+  
+  span
+    margin-right: $spacing-xs
+  
+  &:hover
+    color: $text-light
+
+.content
+  max-width: 1200px
+  margin: 0 auto
+  padding: $spacing-xl
+  margin-top: 80px
+  width: 100%
+  flex: 1
+
+.title
+  margin-bottom: $spacing-lg
+  font-size: 2.2rem
+  font-weight: 700
+
+.serviceSection
+  margin-bottom: $spacing-xl
+  background-color: $card-bg
+  border-radius: $border-radius
+  padding: $spacing-lg
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+
+.serviceHeader
+  display: flex
+  align-items: center
+  margin-bottom: $spacing-sm
+
+.serviceIcon
+  margin-right: $spacing-sm
+  font-size: 1.5rem
+  color: $primary-color
+  
+  svg
+    stroke: $primary-color
+
+.serviceTitle
+  font-size: 1.5rem
+  font-weight: 600
+
+.serviceDescription
+  margin-bottom: $spacing-md
+  color: $text-secondary
+  font-size: 1.1rem
+
+.featureList
+  list-style: none
+  
+  .featureItem
+    margin-bottom: $spacing-xs
+    padding-left: $spacing-md
+    position: relative
+    
+    &::before
+      content: "•"
+      position: absolute
+      left: 8px
+      color: $primary-color
+
+.quickGuide
+  background-color: $card-bg
+  border-radius: $border-radius
+  padding: $spacing-lg
+  margin-bottom: $spacing-xl
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+  
+  .quickGuideTitle
+    margin-bottom: $spacing-md
+    font-size: 1.8rem
+
+.decisionRow
+  margin-bottom: $spacing-sm
+  
+  .serviceName
+    font-weight: 600
+
+.criteriaList
+  display: flex
+  flex-wrap: wrap
+  gap: $spacing-xs
+  margin-top: $spacing-xs
+  
+  .criteriaItem
+    background-color: rgba($primary-color, 0.1)
+    border-radius: $border-radius-lg
+    padding: 6px 12px
+    font-size: 0.9rem
+
+.footer
+  background-color: rgba(0, 0, 0, 0.2)
+  padding: $spacing-md 0
+  text-align: center
+  color: $text-secondary
+  font-size: 0.9rem
+
+@media (max-width: 768px)
+  .header
+    padding: $spacing-md
+  
+  .content
+    padding: $spacing-md
+  
+  .criteriaList
+    flex-direction: column
+    gap: $spacing-xs
+    
+    .criteriaItem
+      margin-bottom: $spacing-xs 

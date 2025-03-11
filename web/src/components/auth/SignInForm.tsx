@@ -39,7 +39,7 @@ export default function SignInForm() {
         setResendCountdown(prev => prev - 1);
       }, 1000);
       return () => clearTimeout(timer);
-    } else {
+    } else if (resendCountdown === 0) {
       setIsResendDisabled(false);
     }
   }, [resendCountdown]);
@@ -104,15 +104,24 @@ export default function SignInForm() {
       );
 
       if (rpcError) {
-        console.error('Error checking allowed email:', rpcError);
-        if (rpcError.message.includes('connection')) {
-          throw new Error(AUTH_CONFIG.ERROR_MESSAGES.NETWORK_ERROR);
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Error checking allowed email:', rpcError);
         }
-        throw new Error(AUTH_CONFIG.ERROR_MESSAGES.UNAUTHORIZED_EMAIL);
+        
+        if (rpcError.message.includes('connection')) {
+          setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.NETWORK_ERROR);
+        } else {
+          setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.UNAUTHORIZED_EMAIL);
+        }
+        
+        setFailedAttempts(prev => prev + 1);
+        return;
       }
 
       if (!isAllowed) {
-        throw new Error(AUTH_CONFIG.ERROR_MESSAGES.UNAUTHORIZED_EMAIL);
+        setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.UNAUTHORIZED_EMAIL);
+        setFailedAttempts(prev => prev + 1);
+        return;
       }
 
       // Send verification code
@@ -125,11 +134,25 @@ export default function SignInForm() {
       });
 
       if (signInError) {
-        console.error('Error sending verification code:', signInError);
-        if (signInError.message.includes('rate limit')) {
-          throw new Error(AUTH_CONFIG.ERROR_MESSAGES.RATE_LIMIT_EXCEEDED);
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Error sending verification code:', signInError);
         }
-        throw new Error(AUTH_CONFIG.ERROR_MESSAGES.EMAIL_SEND_ERROR);
+        
+        if (signInError.message.includes('rate limit')) {
+          if (process.env.NODE_ENV === 'development') {
+            console.log('Supabase rate limit detected:', signInError);
+          }
+          
+          // Mensaje más claro y explicativo para límites de Supabase
+          setErrorMsg("Supabase rate limit reached: Too many verification attempts for this email or IP address. Please try again later (usually after 1 hour) or use a different email.");
+        } else {
+          setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.EMAIL_SEND_ERROR);
+        }
+        
+        setFailedAttempts(prev => prev + 1);
+        setIsResendDisabled(true);
+        setResendCountdown(AUTH_CONFIG.TIMEOUTS.RESEND_COOLDOWN);
+        return;
       }
 
       // Success handling
@@ -146,23 +169,19 @@ export default function SignInForm() {
       }, AUTH_CONFIG.TIMEOUTS.REDIRECT_DELAY);
 
     } catch (error) {
-      console.error('Error in handleSubmit:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Error in handleSubmit:', error);
+      }
+      
       trackEvent(AUTH_CONFIG.ANALYTICS.EVENTS.SIGN_IN_ERROR, { 
         error: error instanceof Error ? error.message : 'Unknown error',
         email 
       });
       
-      setErrorMsg(
-        error instanceof Error ? error.message : AUTH_CONFIG.ERROR_MESSAGES.GENERIC_ERROR
-      );
+      setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.GENERIC_ERROR);
       setFailedAttempts(prev => prev + 1);
-      
-      // If it's not an unauthorized email error, show retry button after delay
-      if (error instanceof Error && 
-          error.message !== AUTH_CONFIG.ERROR_MESSAGES.UNAUTHORIZED_EMAIL) {
-        setIsResendDisabled(true);
-        setResendCountdown(AUTH_CONFIG.TIMEOUTS.RESEND_COOLDOWN);
-      }
+      setIsResendDisabled(true);
+      setResendCountdown(AUTH_CONFIG.TIMEOUTS.RESEND_COOLDOWN);
     } finally {
       setLoading(false);
     }
@@ -174,6 +193,16 @@ export default function SignInForm() {
       e.preventDefault();
       formRef.current?.requestSubmit();
     }
+  }, []);
+
+  // Función para resetear el estado del formulario
+  const handleReset = useCallback(() => {
+    setEmail('');
+    setErrorMsg('');
+    setSuccessMsg('');
+    setFailedAttempts(0);
+    setIsResendDisabled(false);
+    setResendCountdown(0);
   }, []);
 
   return (
@@ -242,11 +271,7 @@ export default function SignInForm() {
                 <div className="w-6 h-6 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin" aria-hidden="true" />
               ) : (
                 <>
-                  <span className="signin-button-text">
-                    {isResendDisabled 
-                      ? `RETRY IN ${resendCountdown}s`
-                      : 'SEND CODE'}
-                  </span>
+                  <span className="signin-button-text">SEND CODE</span>
                   <ArrowRight className="signin-button-icon" aria-hidden="true" />
                 </>
               )}
@@ -262,6 +287,17 @@ export default function SignInForm() {
               id={errorMsg ? 'email-error' : undefined}
             >
               {errorMsg || successMsg}
+              
+              {/* Botón de reinicio cuando hay errores de límite */}
+              {errorMsg && (errorMsg.includes('rate limit') || errorMsg.includes('Too many attempts')) && (
+                <button 
+                  onClick={handleReset}
+                  className="signin-reset-button"
+                  aria-label="Reset form"
+                >
+                  Try with a different email
+                </button>
+              )}
             </div>
           )}
 
@@ -275,10 +311,12 @@ export default function SignInForm() {
         </div>
       </main>
 
-      <footer className={`signin-app-footer ${animationStep >= 4 ? 'active' : ''}`}>
-        <div className="signin-app-footer-content">
-          <p className="signin-app-footer-platform">TBWA Intelligence Analytics Platform</p>
-          <p>© {new Date().getFullYear()} TBWA Intelligence. All rights reserved.</p>
+      <footer className="common-footer">
+        <div className="footer-brand">
+          TBWA Intelligence Analytics Platform
+        </div>
+        <div className="footer-copyright">
+          © {new Date().getFullYear()} TBWA Intelligence. All rights reserved.
         </div>
       </footer>
     </div>

@@ -35,14 +35,59 @@ export default function VerificationForm() {
   // Verificar si hay una sesión activa
   useEffect(() => {
     const checkSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      if (data?.session) {
-        // Si ya hay una sesión activa, redirigir al usuario
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      // Verificar si el usuario está verificado usando los metadatos
+      const isVerified = session?.user?.user_metadata?.is_verified === true;
+      
+      // Log para depuración
+      console.log('Checking session:', {
+        hasSession: !!session,
+        isVerified,
+        userMetadata: session?.user?.user_metadata
+      });
+      
+      if (session && isVerified) {
+        console.log('Session is verified, redirecting to services');
         router.push(AUTH_CONFIG.ROUTES.SERVICES);
+      } else if (session) {
+        console.log('Session exists but not verified, staying on verification page');
+        // Si hay sesión pero no está verificada, nos quedamos en la página de verificación
+      } else {
+        console.log('No session, redirecting to sign in');
+        router.push(AUTH_CONFIG.ROUTES.SIGN_IN);
       }
     };
     
     checkSession();
+    
+    // Configurar un listener para cambios en la sesión
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      // Verificar si el usuario está verificado usando los metadatos
+      const isVerified = session?.user?.user_metadata?.is_verified === true;
+      
+      // Log para depuración
+      console.log('Auth state changed:', {
+        event,
+        hasSession: !!session,
+        isVerified,
+        userMetadata: session?.user?.user_metadata
+      });
+      
+      if (event === 'SIGNED_OUT' || !session) {
+        router.push(AUTH_CONFIG.ROUTES.SIGN_IN);
+      } else if (event === 'SIGNED_IN' && isVerified) {
+        console.log('User signed in and verified, redirecting to services');
+        router.push(AUTH_CONFIG.ROUTES.SERVICES);
+      } else if (event === 'SIGNED_IN') {
+        console.log('User signed in but not verified, staying on verification page');
+        // No hacer nada, mantener al usuario en la página de verificación
+      }
+    });
+    
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [router]);
 
   const handleCodeChange = useCallback((index: number, value: string) => {
@@ -100,7 +145,7 @@ export default function VerificationForm() {
     try {
       trackEvent(AUTH_CONFIG.ANALYTICS.EVENTS.VERIFICATION_ATTEMPT, { email });
       
-      // Usar directamente la API de Supabase para verificar el código
+      // Verificar el código con Supabase
       const { data, error } = await supabase.auth.verifyOtp({
         email,
         token: code,
@@ -108,6 +153,10 @@ export default function VerificationForm() {
       });
       
       if (error) {
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Error verificando código:', error);
+        }
+        
         if (error.message.includes('Invalid token') || error.message.includes('Invalid otp')) {
           setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.INVALID_CODE);
         } else if (error.message.includes('Token has expired')) {
@@ -121,7 +170,6 @@ export default function VerificationForm() {
           email
         });
         
-        // Limpiar código en caso de error
         setVerificationCode(['', '', '', '', '', '']);
         codeInputs.current[0]?.focus();
         return;
@@ -131,25 +179,48 @@ export default function VerificationForm() {
         setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.SESSION_ERROR);
         return;
       }
+
+      // Actualizar los metadatos del usuario para marcar como verificado
+      const { error: updateError } = await supabase.auth.updateUser({
+        data: { is_verified: true }
+      });
+
+      if (updateError) {
+        console.error('Error updating user metadata:', updateError);
+        setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.VERIFICATION_ERROR);
+        return;
+      }
+      
+      // Log para depuración
+      console.log('Verification successful:', {
+        session: !!data.session,
+        userMetadata: data.session?.user?.user_metadata
+      });
       
       setSuccessMsg(AUTH_CONFIG.SUCCESS_MESSAGES.VERIFICATION_SUCCESS);
       trackEvent(AUTH_CONFIG.ANALYTICS.EVENTS.VERIFICATION_SUCCESS, { email });
+      
+      // Limpiar email de verificación
       sessionStorage.removeItem('verifying_email');
       
-      // Redirección al menú de servicios después de un breve delay
+      // Redirección después de un breve delay
       setTimeout(() => {
-        router.push(AUTH_CONFIG.ROUTES.SERVICES);
+        const returnUrl = new URLSearchParams(window.location.search).get('returnUrl');
+        const decodedReturnUrl = returnUrl ? decodeURIComponent(returnUrl) : AUTH_CONFIG.ROUTES.SERVICES;
+        router.push(decodedReturnUrl);
       }, AUTH_CONFIG.TIMEOUTS.REDIRECT_DELAY);
+      
     } catch (error) {
-      console.error('Error in verification:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Error en verificación:', error);
+      }
+      
       trackEvent(AUTH_CONFIG.ANALYTICS.EVENTS.VERIFICATION_ERROR, {
         error: error instanceof Error ? error.message : 'Unknown error',
         email
       });
       
       setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.GENERIC_ERROR);
-      
-      // Limpiar código en caso de error
       setVerificationCode(['', '', '', '', '', '']);
       codeInputs.current[0]?.focus();
     } finally {
@@ -259,9 +330,13 @@ export default function VerificationForm() {
         </div>
       </div>
 
-      <footer className="verification-footer">
-        <p>TBWA Intelligence Analytics Platform</p>
-        <p>© {new Date().getFullYear()} TBWA Intelligence. All rights reserved.</p>
+      <footer className="common-footer">
+        <div className="footer-brand">
+          TBWA Intelligence Analytics Platform
+        </div>
+        <div className="footer-copyright">
+          © {new Date().getFullYear()} TBWA Intelligence. All rights reserved.
+        </div>
       </footer>
     </div>
   );

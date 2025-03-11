@@ -1,23 +1,44 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Brain, ArrowRight, MessageSquare, TrendingUp, Zap, LogOut, Search } from 'lucide-react';
+import { Brain, ArrowRight, MessageSquare, TrendingUp, Zap, LogOut, Search, Database, ChevronRight, ChevronDown, Globe, BarChart } from 'lucide-react';
 import { supabase } from '@/utils/supabaseClient';
 import { AUTH_CONFIG } from '@/utils/auth/config';
 import '@/sass/components/menu/_services.sass';
 
-interface ServiceCard {
+// Interface for individual services
+interface ServiceItem {
   id: string;
   title: string;
   description: string;
   features: string[];
-  icon: JSX.Element;
+  icon: React.ReactNode;
   route: string;
   comingSoon?: boolean;
 }
 
-const services: ServiceCard[] = [
+// Interface for data sources that contain services
+interface DataSourceService {
+  id: string;
+  name: string;
+  description: string;
+  icon: React.ReactNode;
+  route: string;
+  services: ServiceItem[];
+}
+
+// Interface for service categories
+interface ServiceCategory {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  route: string;
+}
+
+// General services
+const generalServices: ServiceItem[] = [
   {
     id: 'brand-discovery',
     title: 'Brand Discovery Analysis',
@@ -76,17 +97,158 @@ const services: ServiceCard[] = [
   }
 ];
 
+// Data source services
+const dataSourceServices: DataSourceService[] = [
+  {
+    id: 'rivaliq',
+    name: 'RivalIQ',
+    description: 'Services based on RivalIQ data for competitive analysis.',
+    icon: <Database className="service-card-icon" />,
+    route: '/services/data-sources/rivaliq',
+    services: [
+      {
+        id: 'rivaliq-competitive-analysis',
+        title: 'Competitive Analysis',
+        description: 'Analyze and compare your social media performance with your competitors.',
+        features: [
+          'Social media benchmarking',
+          'Competitor analysis',
+          'Performance metrics',
+          'Custom reports',
+        ],
+        icon: <BarChart className="service-card-icon" />,
+        route: '/services/data-sources/rivaliq/competitive-analysis',
+        comingSoon: true
+      }
+    ]
+  },
+  {
+    id: 'sprinklr',
+    name: 'Sprinklr',
+    description: 'Services based on the Sprinklr platform for customer experience management.',
+    icon: <Database className="service-card-icon" />,
+    route: '/services/data-sources/sprinklr',
+    services: [
+      {
+        id: 'sprinklr-social-listening',
+        title: 'Social Listening',
+        description: 'Monitor social media conversations to understand brand perception.',
+        features: [
+          'Mention monitoring',
+          'Sentiment analysis',
+          'Trend identification',
+          'Real-time alerts',
+        ],
+        icon: <MessageSquare className="service-card-icon" />,
+        route: '/services/data-sources/sprinklr/social-listening',
+        comingSoon: true
+      }
+    ]
+  },
+  {
+    id: 'pathmatics',
+    name: 'Pathmatics',
+    description: 'Services based on Pathmatics for digital advertising intelligence.',
+    icon: <Database className="service-card-icon" />,
+    route: '/services/data-sources/pathmatics',
+    services: [
+      {
+        id: 'pathmatics-ad-intelligence',
+        title: 'Ad Intelligence',
+        description: 'Analyze digital advertising strategies of your brand and competitors.',
+        features: [
+          'Ad spend tracking',
+          'Creative analysis',
+          'Competitor strategies',
+          'Market trends',
+        ],
+        icon: <TrendingUp className="service-card-icon" />,
+        route: '/services/data-sources/pathmatics/ad-intelligence',
+        comingSoon: true
+      }
+    ]
+  },
+  {
+    id: 'gwi',
+    name: 'GWI',
+    description: 'Services based on Global Web Index for global audience insights.',
+    icon: <Globe className="service-card-icon" />,
+    route: '/services/data-sources/gwi',
+    services: [
+      {
+        id: 'gwi-audience-insights',
+        title: 'Audience Insights',
+        description: 'Understand behaviors, attitudes, and preferences of your target audience.',
+        features: [
+          'Audience profiles',
+          'Demographic analysis',
+          'Online behavior',
+          'Consumer trends',
+        ],
+        icon: <Brain className="service-card-icon" />,
+        route: '/services/data-sources/gwi/audience-insights',
+        comingSoon: true
+      }
+    ]
+  },
+  {
+    id: 'nielsen',
+    name: 'Nielsen Ad Intel',
+    description: 'Services based on Nielsen Ad Intelligence for advertising analysis.',
+    icon: <Database className="service-card-icon" />,
+    route: '/services/data-sources/nielsen',
+    services: [
+      {
+        id: 'nielsen-ad-spend',
+        title: 'Ad Spend Analysis',
+        description: 'Analyze advertising spending patterns across different media and platforms.',
+        features: [
+          'Investment tracking',
+          'Industry analysis',
+          'Competitive comparison',
+          'Market trends',
+        ],
+        icon: <BarChart className="service-card-icon" />,
+        route: '/services/data-sources/nielsen/ad-spend',
+        comingSoon: true
+      }
+    ]
+  }
+];
+
+// Main categories
+const serviceCategories: ServiceCategory[] = [
+  {
+    id: 'data-sources',
+    title: 'Data Source Services',
+    description: 'Specialized analytics based on specific marketing platforms and data sources.',
+    icon: <Database className="category-icon" />,
+    route: '/services/data-sources'
+  },
+  {
+    id: 'general',
+    title: 'General Services',
+    description: 'Tools and analytics for general marketing and business intelligence needs.',
+    icon: <Zap className="category-icon" />,
+    route: '/services/general'
+  }
+];
+
 export default function ServicesMenu() {
   const router = useRouter();
-  const [hoveredService, setHoveredService] = useState<string | null>(null);
-  const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [isSigningOut, setIsSigningOut] = useState(false);
 
   const handleSignOut = async () => {
     if (isSigningOut) return;
-    setIsSigningOut(true);
     
     try {
+      setIsSigningOut(true);
+      
+      // Limpiar la cookie y el sessionStorage
+      document.cookie = "code_verified=false; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; secure; samesite=strict";
+      sessionStorage.removeItem('code_verified');
+      
       await supabase.auth.signOut();
       router.push(AUTH_CONFIG.ROUTES.SIGN_IN);
     } catch (error) {
@@ -96,86 +258,58 @@ export default function ServicesMenu() {
     }
   };
 
-  const handleServiceClick = (service: ServiceCard) => {
-    if (service.comingSoon) {
-      return;
-    }
-    setSelectedService(service.id);
-    if (service.route.startsWith('http')) {
-      window.location.href = service.route;
-      return;
-    }
-    setTimeout(() => {
-      router.push(service.route);
-    }, 300);
+  const handleCategoryClick = (category: ServiceCategory) => {
+    router.push(category.route);
   };
 
   return (
-    <div className="services-container">
-      <nav className="services-nav">
-        <div className="services-nav-brand">
+    <div className="services-menu">
+      <div className="services-menu-header">
+        <div className="services-menu-brand">
           TBWA<span>\</span>INTELLIGENCE
         </div>
         <button 
           onClick={handleSignOut}
+          className="services-menu-signout"
           disabled={isSigningOut}
-          className="services-nav-signout"
         >
-          <LogOut size={20} />
+          <LogOut size={16} />
           <span>Sign Out</span>
         </button>
-      </nav>
+      </div>
 
-      <div className="services-content">
-        <h1>Welcome to</h1>
-        <h2>
-          INTELLIGENCE<span>\</span><br />
-          PLATFORM
-        </h2>
+      <div className="services-menu-content">
+        <h1>Welcome to Intelligence Platform</h1>
+        <p>Select a service category to begin</p>
 
-        <p className="services-subtitle">Select a service to begin your analysis</p>
-
-        <div className="services-grid">
-          {services.map((service) => (
-            <button
-              key={service.id}
-              className={`service-card ${hoveredService === service.id ? 'hovered' : ''} 
-                        ${selectedService === service.id ? 'selected' : ''} 
-                        ${service.comingSoon ? 'coming-soon' : ''}`}
-              onClick={() => handleServiceClick(service)}
-              onMouseEnter={() => setHoveredService(service.id)}
-              onMouseLeave={() => setHoveredService(null)}
-              disabled={service.comingSoon}
+        <div className="services-menu-grid">
+          {serviceCategories.map((category) => (
+            <div
+              key={category.id}
+              className={`service-card ${hoveredCategory === category.id ? 'hovered' : ''}`}
+              onMouseEnter={() => setHoveredCategory(category.id)}
+              onMouseLeave={() => setHoveredCategory(null)}
+              onClick={() => handleCategoryClick(category)}
             >
               <div className="service-card-content">
-                <div className="service-card-icon-wrapper">
-                  {service.icon}
-                  {service.comingSoon && (
-                    <span className="service-card-badge">Coming Soon</span>
-                  )}
+                <div className="service-card-header">
+                  {category.icon}
+                  <h3>{category.title}</h3>
                 </div>
-                <h3 className="service-card-title">{service.title}</h3>
-                <p className="service-card-description">{service.description}</p>
-                <ul className="service-card-features">
-                  {service.features.map((feature, index) => (
-                    <li key={index}>
-                      <MessageSquare size={14} />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+                <p>{category.description}</p>
               </div>
-              <div className="service-card-arrow">
-                <ArrowRight size={20} />
-              </div>
-            </button>
+            </div>
           ))}
         </div>
       </div>
 
-      <footer className="services-footer">
-        <p>TBWA Intelligence Analytics Platform</p>
-        <p>© {new Date().getFullYear()} TBWA Intelligence. All rights reserved.</p>
+      <footer className="common-footer">
+        <div className="footer-brand">
+          TBWA Intelligence Analytics Platform
+        </div>
+        <div className="footer-copyright">
+          © {new Date().getFullYear()} TBWA Intelligence. All rights reserved.
+        </div>
       </footer>
     </div>
   );

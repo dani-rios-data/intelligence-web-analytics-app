@@ -262,6 +262,17 @@
     &:disabled
       opacity: 0.5
       cursor: not-allowed
+      position: relative
+      
+      &::after
+        content: ''
+        position: absolute
+        left: 0
+        right: 0
+        bottom: -4px
+        height: 2px
+        background-color: rgba($danger, 0.5)
+        animation: pulse 2s infinite
 
     &-text
       color: $yellow
@@ -297,6 +308,23 @@
     &-success
       color: $success
       background-color: rgba($success, 0.1)
+
+  &-reset-button
+    display: block
+    margin-top: 0.75rem
+    padding: 0.5rem 0.75rem
+    border: 1px solid rgba($white, 0.2)
+    border-radius: 0.25rem
+    background-color: transparent
+    color: $white
+    font-size: 0.75rem
+    transition: all 0.3s ease-in-out
+    text-align: center
+    cursor: pointer
+    
+    &:hover
+      background-color: rgba($white, 0.1)
+      border-color: rgba($white, 0.3)
 
   &-footer
     margin-top: 2rem
