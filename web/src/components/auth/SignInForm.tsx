@@ -25,6 +25,17 @@ export default function SignInForm() {
   const [animationStep, setAnimationStep] = useState(0);
   const [failedAttempts, setFailedAttempts] = useState(0);
 
+  // Efecto para manejar la redirección después de un inicio de sesión exitoso
+  useEffect(() => {
+    if (successMsg === AUTH_CONFIG.SUCCESS_MESSAGES.MAGIC_LINK_SENT) {
+      const redirectTimer = setTimeout(() => {
+        router.push(AUTH_CONFIG.ROUTES.VERIFICATION);
+      }, AUTH_CONFIG.TIMEOUTS.REDIRECT_DELAY);
+      
+      return () => clearTimeout(redirectTimer);
+    }
+  }, [successMsg, router]);
+
   // Handle animations with cleanup
   useEffect(() => {
     const timer = setInterval(() => {
@@ -165,10 +176,7 @@ export default function SignInForm() {
       setResendCountdown(AUTH_CONFIG.VERIFICATION_CODE.RESEND_DELAY / 1000);
       setFailedAttempts(0);
       
-      // Redirect to verification page after a short delay
-      setTimeout(() => {
-        router.push(AUTH_CONFIG.ROUTES.VERIFICATION);
-      }, AUTH_CONFIG.TIMEOUTS.REDIRECT_DELAY);
+      // La redirección ahora es manejada por el useEffect
 
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
@@ -313,7 +321,9 @@ export default function SignInForm() {
         </div>
       </main>
 
-      <Footer />
+      <div className="signin-footer-wrapper">
+        <Footer />
+      </div>
     </div>
   );
 } 

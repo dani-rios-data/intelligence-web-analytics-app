@@ -21,6 +21,40 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
+  // Configuración avanzada para manejar módulos obsoletos y optimizaciones
+  webpack: (config, { isServer, dev }) => {
+    // Evitar advertencias de punycode y otros módulos obsoletos
+    config.ignoreWarnings = [
+      { module: /node_modules\/punycode/ },
+      { message: /Critical dependency/},
+      { message: /Package exports/ },
+    ];
+    
+    // Optimizar manejo de módulos para reducir advertencias
+    if (!isServer && !dev) {
+      // Configurar optimizaciones para producción
+      config.optimization.minimize = true;
+      config.optimization.concatenateModules = true;
+    }
+    
+    // Omitir las advertencias de módulos obsoletos
+    config.module = {
+      ...config.module,
+      exprContextCritical: false,
+      unknownContextCritical: false,
+    };
+    
+    return config;
+  },
+  // Configuraciones de outputs para reducir advertencias
+  logging: {
+    fetches: {
+      fullUrl: false,
+    }
+  },
+  // Optimizaciones generales
+  poweredByHeader: false,
+  compress: true,
 }
 
 module.exports = nextConfig 

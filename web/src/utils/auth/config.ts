@@ -174,7 +174,7 @@ const supabase = createClient(
 
 // NextAuth configuration
 export const authOptions: AuthOptions = {
-  debug: process.env.NODE_ENV === 'development',
+  debug: false,
   providers: [],
   secret: process.env.NEXTAUTH_SECRET,
   session: {

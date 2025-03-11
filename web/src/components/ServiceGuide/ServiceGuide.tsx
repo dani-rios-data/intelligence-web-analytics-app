@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import ServiceSection from './ServiceSection';
 import QuickGuide from './QuickGuide';
 import Footer from '@/components/Footer';
@@ -31,6 +32,8 @@ interface DecisionGuideItem {
 }
 
 const ServiceGuide: React.FC = () => {
+  const router = useRouter();
+  
   // Datos de servicios
   const services: ServiceData[] = [
     {
@@ -81,13 +84,36 @@ const ServiceGuide: React.FC = () => {
     }
   ];
 
+  // Método seguro para cerrar la ventana o volver atrás
+  const handleClose = useCallback(() => {
+    // Primero intentar usar history para ir hacia atrás
+    if (window.history && window.history.length > 1) {
+      router.back();
+      return;
+    }
+    
+    // Si no hay historial, intentar cerrar la ventana (solo funciona para ventanas abiertas por JavaScript)
+    try {
+      window.close();
+    } catch (error) {
+      // Si no se puede cerrar la ventana, redirigimos a la página principal
+      router.push('/');
+    }
+  }, [router]);
+
   return (
     <div className={styles.guideContainer}>
       <header className={styles.header}>
-        <div className={styles.logo}>
-          TBWA<span className={styles.logoAccent}>\</span>INTELLIGENCE
+        <div className={styles.logoContainer}>
+          <img
+            src="/images/logo_tbwa.svg" 
+            alt="TBWA Logo"
+            width={120}
+            height={40}
+            className={styles.logo}
+          />
         </div>
-        <button onClick={() => window.close()} className={styles.closeBtn}>
+        <button onClick={handleClose} className={styles.closeBtn}>
           <span>Close Guide</span>
           <ArrowRight size={24} />
         </button>
@@ -103,7 +129,9 @@ const ServiceGuide: React.FC = () => {
         <QuickGuide decisionGuide={decisionGuide} />
       </div>
 
-      <Footer />
+      <div className={styles.footerWrapper}>
+        <Footer />
+      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Database, BarChart2, ArrowRight, LogOut, Home, Settings, HelpCircle, Users, Bell } from 'lucide-react';
+import { Database, BarChart2, ArrowRight, Home, Settings, HelpCircle, Users, Bell } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import styles from './styles.module.scss';
@@ -59,7 +59,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
 
   return (
     <div 
-      className={styles.serviceCard}
+      className={`${styles.serviceCard} ${isHovered ? styles.hovered : ''}`}
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -375,7 +375,9 @@ const ServicesPage = () => {
         </div>
       </main>
 
-      <Footer />
+      <div className={styles.footerWrapper}>
+        <Footer />
+      </div>
     </div>
   );
 };

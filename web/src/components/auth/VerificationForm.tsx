@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight } from 'lucide-react';
-import { verifyCode, resendVerificationCode } from '@/utils/auth/config';
+import { resendVerificationCode } from '@/utils/auth/config';
 import { AUTH_CONFIG } from '@/utils/auth/config';
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { useThrottle } from '@/hooks/useThrottle';
@@ -41,53 +41,60 @@ export default function VerificationForm() {
     const isWaitingForVerification = sessionStorage.getItem('waiting_for_verification') === 'true';
     
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      // Verificar si el usuario está verificado usando los metadatos
-      const isVerified = session?.user?.user_metadata?.is_verified === true;
-      
-      // Log para depuración
-      console.log('Checking session:', {
-        hasSession: !!session,
-        isVerified,
-        userMetadata: session?.user?.user_metadata,
-        isComingFromSignIn,
-        isWaitingForVerification
-      });
-      
-      // Si venimos del inicio de sesión, siempre queremos que el usuario ingrese el código
-      // independientemente del estado de la sesión
-      if (isComingFromSignIn) {
-        console.log('Coming from sign in, waiting for code verification');
-        // Marcar que estamos esperando la verificación
-        sessionStorage.setItem('waiting_for_verification', 'true');
-        // No redirigir, quedarse en la página de verificación
-      }
-      // Solo redirigir a servicios si la sesión está verificada Y no estamos esperando verificación
-      else if (session && isVerified && !isWaitingForVerification) {
-        console.log('Session is verified and not waiting for verification, redirecting to services');
-        // Limpiar la bandera cuando se redirige a los servicios
-        sessionStorage.removeItem('coming_from_signin');
-        sessionStorage.removeItem('waiting_for_verification');
-        router.push(AUTH_CONFIG.ROUTES.SERVICES);
-      } 
-      // Si hay sesión o estamos esperando verificación, quedarse en la página
-      else if (session || isWaitingForVerification) {
-        console.log('Session exists or waiting for verification, staying on verification page');
-        // Si hay sesión o estamos esperando verificación, nos quedamos en la página de verificación
-      } 
-      // Sin sesión y sin esperar verificación, redirigir al inicio de sesión
-      else {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        // Verificar si el usuario está verificado usando los metadatos
+        const isVerified = session?.user?.user_metadata?.is_verified === true;
+        
+        // Log para depuración
+        console.log('Checking session:', {
+          hasSession: !!session,
+          isVerified,
+          userMetadata: session?.user?.user_metadata,
+          isComingFromSignIn,
+          isWaitingForVerification
+        });
+        
+        // Si venimos del inicio de sesión, siempre queremos que el usuario ingrese el código
+        if (isComingFromSignIn) {
+          console.log('Coming from sign in, waiting for code verification');
+          // Marcar que estamos esperando la verificación
+          sessionStorage.setItem('waiting_for_verification', 'true');
+          // No redirigir, quedarse en la página de verificación
+          return;
+        }
+        
+        // Solo redirigir a servicios si la sesión está verificada Y no estamos esperando verificación
+        if (session && isVerified && !isWaitingForVerification) {
+          console.log('Session is verified and not waiting for verification, redirecting to services');
+          // Limpiar la bandera cuando se redirige a los servicios
+          sessionStorage.removeItem('coming_from_signin');
+          sessionStorage.removeItem('waiting_for_verification');
+          router.push(AUTH_CONFIG.ROUTES.SERVICES);
+          return;
+        } 
+        
+        // Si hay sesión o estamos esperando verificación, quedarse en la página
+        if (session || isWaitingForVerification) {
+          console.log('Session exists or waiting for verification, staying on verification page');
+          // Si hay sesión o estamos esperando verificación, nos quedamos en la página de verificación
+          return;
+        } 
+        
+        // Sin sesión y sin esperar verificación, redirigir al inicio de sesión
         console.log('No session and not waiting for verification, redirecting to sign in');
         sessionStorage.removeItem('waiting_for_verification');
         router.push(AUTH_CONFIG.ROUTES.SIGN_IN);
+      } catch (error) {
+        console.error('Error checking session:', error);
       }
     };
     
     // Esperar un momento antes de verificar la sesión para dar tiempo a que se establezca
     const timer = setTimeout(() => {
       checkSession();
-    }, 500);
+    }, 1000); // Aumentado el tiempo para asegurar que todo esté cargado
     
     // Configurar un listener para cambios en la sesión
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
@@ -384,7 +391,9 @@ export default function VerificationForm() {
         </div>
       </div>
 
-      <Footer />
+      <div className="verification-footer-wrapper">
+        <Footer />
+      </div>
     </div>
   );
 } 

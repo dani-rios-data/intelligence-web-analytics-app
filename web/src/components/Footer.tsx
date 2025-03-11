@@ -1,14 +1,21 @@
 import React from 'react';
 import styles from './Footer.module.scss';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+const Footer: React.FC<FooterProps> = ({ className = '', style }) => {
+  const currentYear = new Date().getFullYear();
+  
   return (
-    <footer className={styles.footer}>
+    <footer className={`${styles.footer} ${className}`} style={style}>
       <div className={styles.footerBrand}>
         TBWA Intelligence Analytics Platform
       </div>
       <div className={styles.footerCopyright}>
-        © {new Date().getFullYear()} TBWA Intelligence. All rights reserved.
+        © {currentYear} TBWA Intelligence. All rights reserved.
       </div>
     </footer>
   );

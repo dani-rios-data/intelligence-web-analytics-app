@@ -249,7 +249,7 @@
   overflow: hidden;
   border-radius: 0.5rem;
   padding: 1.5rem;
-  transition: all 0.4s ease;
+  transition: all 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   background-color: #0C1220;
 
@@ -288,6 +288,11 @@
         color: #60A5FA;
       }
     }
+  }
+
+  &.hovered {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -649,4 +654,9 @@
       }
     }
   }
+}
+
+.footerWrapper {
+  background-color: #000000;
+  margin-top: auto;
 } 
