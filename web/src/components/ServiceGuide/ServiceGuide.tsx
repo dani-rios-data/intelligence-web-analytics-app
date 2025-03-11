@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import ServiceSection from './ServiceSection';
 import QuickGuide from './QuickGuide';
@@ -84,38 +84,31 @@ const ServiceGuide: React.FC = () => {
     }
   ];
 
-  // Método seguro para cerrar la ventana o volver atrás
-  const handleClose = useCallback(() => {
+  // Método para manejar el cierre o sign out
+  const handleSignOut = useCallback(() => {
     // Primero intentar usar history para ir hacia atrás
     if (window.history && window.history.length > 1) {
       router.back();
       return;
     }
     
-    // Si no hay historial, intentar cerrar la ventana (solo funciona para ventanas abiertas por JavaScript)
-    try {
-      window.close();
-    } catch (error) {
-      // Si no se puede cerrar la ventana, redirigimos a la página principal
-      router.push('/');
-    }
+    // Si no hay historial, redirigimos a la página principal
+    router.push('/');
   }, [router]);
 
   return (
     <div className={styles.guideContainer}>
       <header className={styles.header}>
-        <div className={styles.logoContainer}>
-          <img
-            src="/images/logo_tbwa.svg" 
-            alt="TBWA Logo"
-            width={120}
-            height={40}
-            className={styles.logo}
-          />
+        <div className={styles.headerContent}>
+          <div className={styles.logo}>
+            <span>TBWA</span>
+            <span className={styles.accent}>\</span>
+            <span>INTELLIGENCE</span>
+          </div>
         </div>
-        <button onClick={handleClose} className={styles.closeBtn}>
-          <span>Close Guide</span>
-          <ArrowRight size={24} />
+        <button onClick={handleSignOut} className={styles.signOutButton}>
+          <span>Sign Out</span>
+          <LogOut size={16} />
         </button>
       </header>
 
