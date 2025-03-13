@@ -1,12 +1,19 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './styles.module.scss'
 import Footer from '../../../components/Footer'
+import { useRouter } from 'next/navigation'
 
 interface FeatureData {
   id: string
   text: string
+}
+
+interface SubService {
+  id: string
+  name: string
+  route: string
 }
 
 interface ServiceData {
@@ -17,174 +24,7 @@ interface ServiceData {
   badge?: string
   status: 'Active' | 'Fixing' | 'Coming Soon'
   features: FeatureData[]
-}
-
-const DataSourcesPage = () => {
-  const [searchQuery, setSearchQuery] = React.useState('');
-  const services: ServiceData[] = [
-    {
-      id: 'rivaliq',
-      title: 'RivalIQ',
-      description: 'Process and analyze social media data from RivalIQ platform to generate advanced competitive intelligence and benchmarking insights.',
-      icon: 'chart',
-      badge: 'Social Analytics',
-      status: 'Active',
-      features: [
-        { id: 'ri1', text: 'RivalIQ Data Integration' },
-        { id: 'ri2', text: 'Custom Analytics Reports' },
-        { id: 'ri3', text: 'Automated Insights Generation' }
-      ]
-    },
-    {
-      id: 'gwi',
-      title: 'GWI',
-      description: 'Transform GWI platform data into actionable consumer insights and detailed audience understanding through custom analytics.',
-      icon: 'globe',
-      badge: 'Market Research',
-      status: 'Active',
-      features: [
-        { id: 'gwi1', text: 'GWI Data Integration' },
-        { id: 'gwi2', text: 'Custom Audience Reports' },
-        { id: 'gwi3', text: 'Trend Pattern Analysis' }
-      ]
-    },
-    {
-      id: 'sprinklr',
-      title: 'Sprinklr',
-      description: 'Process and analyze social listening data from Sprinklr to deliver comprehensive brand monitoring and engagement insights.',
-      icon: 'social',
-      badge: 'Social Listening',
-      status: 'Active',
-      features: [
-        { id: 'sp1', text: 'Sprinklr Data Integration' },
-        { id: 'sp2', text: 'Custom Monitoring Reports' },
-        { id: 'sp3', text: 'Sentiment Analysis' }
-      ]
-    },
-    {
-      id: 'pathmatics',
-      title: 'Pathmatics',
-      description: 'Transform advertising data from Pathmatics into detailed competitive intelligence and market spending analysis.',
-      icon: 'analytics',
-      badge: 'Ad Intelligence',
-      status: 'Active',
-      features: [
-        { id: 'pm1', text: 'Pathmatics Data Integration' },
-        { id: 'pm2', text: 'Spend Analysis Reports' },
-        { id: 'pm3', text: 'Creative Performance Insights' }
-      ]
-    }
-  ]
-
-  const filteredServices = services.filter(service => 
-    service.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    service.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    service.features.some(feature => 
-      feature.text.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  );
-
-  return (
-    <div className={styles.container}>
-      <header className={styles.header}>
-        <button onClick={() => window.history.back()} className={styles.backButton}>
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="20" 
-            height="20" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-          >
-            <path d="M19 12H5"></path>
-            <path d="M12 19l-7-7 7-7"></path>
-          </svg>
-          Back to Services
-        </button>
-        
-        <div className={styles.logo}>
-          TBWA<span>\</span>INTELLIGENCE
-        </div>
-      </header>
-
-      <main className={styles.mainContent}>
-        <h1 className={styles.pageTitle}>Custom Platform Services</h1>
-        <p className={styles.pageSubtitle}>
-          Custom analytics services that process and transform data from RivalIQ, GWI, Sprinklr, and Pathmatics into actionable intelligence
-        </p>
-
-        <div className={styles.searchContainer}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input
-            type="text"
-            className={styles.searchBar}
-            placeholder="Search services..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-
-        <div className={styles.servicesGrid}>
-          {filteredServices.map(service => (
-            <div key={service.id} className={styles.serviceCard}>
-              {service.badge && (
-                <span className={styles.platformBadge}>{service.badge}</span>
-              )}
-              <div className={styles.serviceHeader}>
-                <div className={styles.serviceIcon}>
-                  {getServiceIcon(service.icon)}
-                </div>
-                <h2 className={styles.serviceTitle}>{service.title}</h2>
-              </div>
-              <p className={styles.serviceDescription}>{service.description}</p>
-              <div className={styles.serviceFeatures}>
-                {service.features.map(feature => (
-                  <div key={feature.id} className={styles.featureItem}>
-                    <span className={styles.featureIcon}>
-                      <svg 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        width="18" 
-                        height="18" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        strokeWidth="2" 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round"
-                      >
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </span>
-                    <span>{feature.text}</span>
-                  </div>
-                ))}
-              </div>
-              <span className={`${styles.featureBadge} ${styles[service.status.toLowerCase().replace(' ', '-')]}`}>
-                {service.status}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        <div className={styles.footerSpacing} />
-        <Footer />
-      </main>
-    </div>
-  )
+  subServices?: SubService[]
 }
 
 const getServiceIcon = (iconName: string) => {
@@ -227,4 +67,223 @@ const getServiceIcon = (iconName: string) => {
   }
 }
 
-export default DataSourcesPage 
+const DataSourcesPage = () => {
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [expandedService, setExpandedService] = useState<string | null>(null);
+  const router = useRouter();
+
+  const services: ServiceData[] = [
+    {
+      id: 'rivaliq',
+      title: 'RivalIQ',
+      description: 'Process and analyze social media data from RivalIQ platform to generate advanced competitive intelligence and benchmarking insights.',
+      icon: 'chart',
+      badge: 'Social Analytics',
+      status: 'Active',
+      features: [
+        { id: 'ri1', text: 'RivalIQ Data Integration' },
+        { id: 'ri2', text: 'Custom Analytics Reports' },
+        { id: 'ri3', text: 'Automated Insights Generation' }
+      ],
+      subServices: [
+        { id: 'social-media', name: 'Social Media Extractor', route: '/services/data-sources/rivaliq/social-media' },
+        { id: 'content', name: 'Content Extractor', route: '/services/data-sources/rivaliq/content' },
+        { id: 'categorization', name: 'Categorization', route: '/services/data-sources/rivaliq/categorization' },
+        { id: 'benchmarking', name: 'Benchmarking', route: '/services/data-sources/rivaliq/benchmarking' }
+      ]
+    },
+    {
+      id: 'gwi',
+      title: 'GWI',
+      description: 'Transform GWI platform data into actionable consumer insights and detailed audience understanding through custom analytics.',
+      icon: 'globe',
+      badge: 'Market Research',
+      status: 'Active',
+      features: [
+        { id: 'gwi1', text: 'GWI Data Integration' },
+        { id: 'gwi2', text: 'Custom Audience Reports' },
+        { id: 'gwi3', text: 'Trend Pattern Analysis' }
+      ]
+    },
+    {
+      id: 'sprinklr',
+      title: 'Sprinklr',
+      description: 'Process and analyze social listening data from Sprinklr to deliver comprehensive brand monitoring and engagement insights.',
+      icon: 'social',
+      badge: 'Social Listening',
+      status: 'Active',
+      features: [
+        { id: 'sp1', text: 'Sprinklr Data Integration' },
+        { id: 'sp2', text: 'Custom Monitoring Reports' },
+        { id: 'sp3', text: 'Sentiment Analysis' }
+      ]
+    },
+    {
+      id: 'pathmatics',
+      title: 'Pathmatics',
+      description: 'Transform advertising data from Pathmatics into detailed competitive intelligence and market spending analysis.',
+      icon: 'analytics',
+      badge: 'Ad Intelligence',
+      status: 'Active',
+      features: [
+        { id: 'pm1', text: 'Pathmatics Data Integration' },
+        { id: 'pm2', text: 'Spend Analysis Reports' },
+        { id: 'pm3', text: 'Creative Performance Insights' }
+      ]
+    },
+    {
+      id: 'nielsen',
+      title: 'Nielsen Ad Intel',
+      description: 'Process and analyze advertising data from Nielsen Ad Intel to deliver comprehensive media spend insights and competitive intelligence.',
+      icon: 'analytics',
+      badge: 'Ad Intelligence',
+      status: 'Active',
+      features: [
+        { id: 'ni1', text: 'Nielsen Data Integration' },
+        { id: 'ni2', text: 'Media Spend Analysis' },
+        { id: 'ni3', text: 'Cross-Platform Intelligence' },
+        { id: 'ni4', text: 'Market Trend Reports' }
+      ]
+    }
+  ]
+
+  const filteredServices = services.filter(service => 
+    service.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    service.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    service.features.some(feature => 
+      feature.text.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+
+  const handleServiceClick = (serviceId: string) => {
+    if (serviceId === 'rivaliq') {
+      router.push('/services/data-sources/rivaliq');
+    }
+  };
+
+  const handleSubServiceClick = (route: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    router.push(route);
+  };
+
+  return (
+    <div className={styles.container}>
+      <header className={styles.header}>
+        <button onClick={() => window.history.back()} className={styles.backButton}>
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            width="20" 
+            height="20" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+          >
+            <path d="M19 12H5"></path>
+            <path d="M12 19l-7-7 7-7"></path>
+          </svg>
+          Back to Services
+        </button>
+        
+        <div className={styles.logo}>
+          TBWA<span>\</span>INTELLIGENCE
+        </div>
+      </header>
+
+      <main className={styles.mainContent}>
+        <h1 className={styles.pageTitle}>Custom Platform Services</h1>
+        <p className={styles.pageSubtitle}>
+          Custom analytics services that process and transform data from RivalIQ, GWI, Sprinklr, Pathmatics, and Nielsen Ad Intel into actionable intelligence
+        </p>
+
+        <div className={styles.searchContainer}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="text"
+            className={styles.searchBar}
+            placeholder="Search services..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
+        <div className={styles.servicesGrid}>
+          {filteredServices.map(service => (
+            <div 
+              key={service.id} 
+              className={`${styles.serviceCard} ${service.id === expandedService ? styles.expanded : ''}`}
+              onClick={() => handleServiceClick(service.id)}
+            >
+              {service.badge && (
+                <span className={styles.platformBadge}>{service.badge}</span>
+              )}
+              <div className={styles.serviceHeader}>
+                <div className={styles.serviceIcon}>
+                  {getServiceIcon(service.icon)}
+                </div>
+                <h2 className={styles.serviceTitle}>{service.title}</h2>
+              </div>
+              <p className={styles.serviceDescription}>{service.description}</p>
+              <div className={styles.serviceFeatures}>
+                {service.features.map(feature => (
+                  <div key={feature.id} className={styles.featureItem}>
+                    <span className={styles.featureIcon}>
+                      <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        width="18" 
+                        height="18" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </span>
+                    <span>{feature.text}</span>
+                  </div>
+                ))}
+              </div>
+              {service.subServices && service.id === expandedService && (
+                <div className={styles.subServicesMenu}>
+                  {service.subServices.map(subService => (
+                    <button
+                      key={subService.id}
+                      className={styles.subServiceItem}
+                      onClick={(e) => handleSubServiceClick(subService.route, e)}
+                    >
+                      {subService.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <span className={`${styles.featureBadge} ${styles[service.status.toLowerCase().replace(' ', '-')]}`}>
+                {service.status}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.footerSpacing} />
+        <Footer />
+      </main>
+    </div>
+  );
+};
+
+export default DataSourcesPage;

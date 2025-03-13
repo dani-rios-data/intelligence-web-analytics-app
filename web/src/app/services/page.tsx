@@ -373,7 +373,7 @@ const ServicesPage = () => {
             </button>
           </div>
         </div>
-      </main>
+    </main>
 
       <div className={styles.footerWrapper}>
         <Footer />
