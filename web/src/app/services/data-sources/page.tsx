@@ -68,8 +68,7 @@ const getServiceIcon = (iconName: string) => {
 }
 
 const DataSourcesPage = () => {
-  const [searchQuery, setSearchQuery] = React.useState('');
-  const [expandedService, setExpandedService] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
 
   const services: ServiceData[] = [
@@ -161,11 +160,6 @@ const DataSourcesPage = () => {
     }
   };
 
-  const handleSubServiceClick = (route: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    router.push(route);
-  };
-
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -224,7 +218,7 @@ const DataSourcesPage = () => {
           {filteredServices.map(service => (
             <div 
               key={service.id} 
-              className={`${styles.serviceCard} ${service.id === expandedService ? styles.expanded : ''}`}
+              className={styles.serviceCard}
               onClick={() => handleServiceClick(service.id)}
             >
               {service.badge && (
@@ -259,19 +253,6 @@ const DataSourcesPage = () => {
                   </div>
                 ))}
               </div>
-              {service.subServices && service.id === expandedService && (
-                <div className={styles.subServicesMenu}>
-                  {service.subServices.map(subService => (
-                    <button
-                      key={subService.id}
-                      className={styles.subServiceItem}
-                      onClick={(e) => handleSubServiceClick(subService.route, e)}
-                    >
-                      {subService.name}
-                    </button>
-                  ))}
-                </div>
-              )}
               <span className={`${styles.featureBadge} ${styles[service.status.toLowerCase().replace(' ', '-')]}`}>
                 {service.status}
               </span>

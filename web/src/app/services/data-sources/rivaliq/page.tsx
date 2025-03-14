@@ -3,7 +3,6 @@
 import React from 'react'
 import styles from './styles.module.scss'
 import { useRouter } from 'next/navigation'
-import Footer from '../../../../components/Footer'
 
 interface SubService {
   id: string
@@ -11,12 +10,20 @@ interface SubService {
   route: string
   description: string
   status: 'Active' | 'Fixing' | 'Coming Soon'
+  isGoal?: boolean
 }
 
 const RivalIQPage = () => {
   const router = useRouter();
   
   const subServices: SubService[] = [
+    {
+      id: 'data-visualization',
+      name: 'Data Visualization',
+      route: '/services/data-sources/rivaliq/data-visualization',
+      description: 'Raw data dashboards and metrics visualization from CSV sources, providing immediate insights into performance and trends.',
+      status: 'Active'
+    },
     {
       id: 'social-media',
       name: 'Social Media Extractor',
@@ -44,6 +51,21 @@ const RivalIQPage = () => {
       route: '/services/data-sources/rivaliq/benchmarking',
       description: 'Compare performance metrics against competitors and industry standards.',
       status: 'Active'
+    },
+    {
+      id: 'sentiment-analysis',
+      name: 'Sentiment Analysis',
+      route: '/services/data-sources/rivaliq/sentiment-analysis',
+      description: 'Advanced AI-powered analysis of content sentiment, audience reactions, and emotional response patterns.',
+      status: 'Active'
+    },
+    {
+      id: 'report-insight',
+      name: 'Report Insight',
+      route: '/services/data-sources/rivaliq/report-insight',
+      description: 'Comprehensive reports enhanced with images, videos, AI-powered insights, and strategic recommendations for business growth.',
+      status: 'Active',
+      isGoal: true
     }
   ];
 
@@ -74,39 +96,60 @@ const RivalIQPage = () => {
       </header>
 
       <main className={styles.mainContent}>
-        <div className={styles.serviceHeader}>
-          <h1 className={styles.pageTitle}>RivalIQ Services</h1>
-        </div>
-        
-        <p className={styles.pageSubtitle}>
-          Process and analyze social media data from RivalIQ platform to generate advanced competitive intelligence and benchmarking insights.
-        </p>
+        <div className={styles.contentWrapper}>
+          <div className={styles.serviceHeader}>
+            <h1 className={styles.pageTitle}>RivalIQ</h1>
+          </div>
+          
+          <p className={styles.pageSubtitle}>
+            Process and analyze social media data from RivalIQ platform to generate advanced competitive intelligence and benchmarking insights.
+          </p>
 
-        <div className={styles.servicesGrid}>
-          {subServices.map(service => (
-            <div 
-              key={service.id} 
-              className={styles.serviceCard}
-              onClick={() => router.push(service.route)}
-            >
-              <div className={styles.cardHeader}>
-                <h2 className={styles.serviceTitle}>{service.name}</h2>
-                <div className={styles.badges}>
-                  <span className={styles.platformBadge}>RivalIQ</span>
-                  <span className={styles.categoryBadge}>Social Analytics</span>
+          <div className={styles.pipelineContainer}>
+            {subServices.map((service, index) => (
+              <div 
+                key={service.id} 
+                className={`${styles.pipelineStep} ${service.isGoal ? styles.goalStep : ''}`}
+                onClick={() => router.push(service.route)}
+              >
+                <div className={`${styles.stepNumber} ${service.isGoal ? styles.goalNumber : ''}`}>{index + 1}</div>
+                <div className={styles.stepContent}>
+                  <h2 className={`${styles.serviceTitle} ${service.isGoal ? styles.goalTitle : ''}`}>{service.name}</h2>
+                  <p className={styles.serviceDescription}>
+                    {service.description}
+                  </p>
+                </div>
+                <div className={styles.statusBadge}>
+                  <span className={`${styles.featureBadge} ${styles[service.status.toLowerCase().replace(' ', '-')]}`}>
+                    {service.status}
+                  </span>
+                  {service.isGoal && (
+                    <span className={styles.goalBadge}>GOAL</span>
+                  )}
                 </div>
               </div>
-              <p className={styles.serviceDescription}>{service.description}</p>
-              <span className={`${styles.featureBadge} ${styles[service.status.toLowerCase().replace(' ', '-')]}`}>
-                {service.status}
-              </span>
-            </div>
-          ))}
+            ))}
+          </div>
+          
+          <div className={styles.footerMessage}>
+            FOR SOME, "GOOD ENOUGH" WILL ALWAYS BE ENOUGH.<br />
+            BUT MAYBE NOT FOR YOU. WELCOME.
+          </div>
         </div>
-
-        <div className={styles.footerSpacing} />
-        <Footer />
       </main>
+      
+      <div className={styles.footerWrapper}>
+        <footer className={styles.footer}>
+          <div className={styles.footerContent}>
+            <div className={styles.footerBrand}>
+              TBWA Intelligence Analytics Platform
+            </div>
+            <div className={styles.footerCopyright}>
+              © 2025 TBWA Intelligence. All rights reserved.
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 };
