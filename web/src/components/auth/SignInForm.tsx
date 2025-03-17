@@ -109,19 +109,26 @@ export default function SignInForm() {
       trackEvent(AUTH_CONFIG.ANALYTICS.EVENTS.SIGN_IN_ATTEMPT, { email });
       const normalizedEmail = email.trim().toLowerCase();
 
-      // Check if email is allowed using RPC function
-      const { data: isAllowed, error: rpcError } = await supabase.rpc(
-        'check_allowed_email',
-        { email_param: normalizedEmail }
-      );
+      // Agregar timeout a la petición
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Request timeout')), 10000);
+      });
+
+      // Check if email is allowed using RPC function with timeout
+      const response = await Promise.race([
+        supabase.rpc('check_allowed_email', { email_param: normalizedEmail }),
+        timeoutPromise
+      ]) as { data: boolean | null; error: any };
+
+      const { data: isAllowed, error: rpcError } = response;
 
       if (rpcError) {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('Error checking allowed email:', rpcError);
-        }
+        console.error('Error checking allowed email:', rpcError);
         
-        if (rpcError.message.includes('connection')) {
-          setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.NETWORK_ERROR);
+        if (rpcError.message.includes('timeout') || rpcError.message.includes('fetch')) {
+          setErrorMsg('No se pudo conectar con el servidor. Por favor, verifica tu conexión a internet y vuelve a intentarlo.');
+        } else if (rpcError.message.includes('connection')) {
+          setErrorMsg('Error de conexión con el servidor. Por favor, inténtalo de nuevo en unos momentos.');
         } else {
           setErrorMsg(AUTH_CONFIG.ERROR_MESSAGES.UNAUTHORIZED_EMAIL);
         }

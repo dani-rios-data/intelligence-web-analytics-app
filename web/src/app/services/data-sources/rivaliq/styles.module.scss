@@ -1,4 +1,42 @@
 @use '../../../../sass/_variables' as *;
+@use 'sass:color';
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba($yellow, 0.4);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba($yellow, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba($yellow, 0);
+  }
+}
 
 .container {
   min-height: 100vh;
@@ -71,6 +109,7 @@
   padding: 1.5rem;
   position: relative;
   z-index: 1;
+  animation: fadeInUp 0.8s ease-out;
   
   @media (min-width: $breakpoint-md) {
     padding: 2rem;
@@ -111,6 +150,14 @@
   text-align: center;
   font-weight: bold;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .backslash {
+    color: $yellow;
+    margin-right: 0.5rem;
+  }
 
   @media (max-width: $breakpoint-md) {
     font-size: 2rem;
@@ -145,34 +192,96 @@
   &:after {
     content: '';
     position: absolute;
-    left: 50%;
+    left: 3.5rem;
     top: 50px;
     bottom: 50px;
     width: 2px;
     background-color: rgba($white, 0.2);
     z-index: 1;
-    transform: translateX(-50%);
+  }
+}
+
+.pipelineGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  padding: 0 1rem;
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: 2.5rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, 
+      rgba($yellow, 0.5),
+      rgba($yellow, 0.2),
+      rgba($yellow, 0.1)
+    );
+    z-index: 0;
   }
 }
 
 .pipelineStep {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   position: relative;
-  padding: 1.5rem 0;
-  cursor: pointer;
-  margin-bottom: 2rem;
-  transition: transform $transition-speed;
+  padding-left: 3rem;
   
-  &:hover {
-    transform: translateY(-5px);
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 1.5rem;
+    width: 2rem;
+    height: 2px;
+    background: rgba($yellow, 0.3);
+  }
+
+  .serviceCard {
+    border-left: none;
     
-    .stepNumber {
-      background-color: $yellow;
-      color: $black;
-      box-shadow: 0 0 15px rgba($yellow, 0.5);
+    &.recommended {
+      border: 1px dashed rgba($yellow, 0.3);
+      
+      &:before {
+        display: none;
+      }
+      
+      &:after {
+        content: '★ Recommended';
+        position: absolute;
+        top: -10px;
+        right: 40px;
+        background: #FFD700;
+        color: #000;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+      }
     }
+  }
+}
+
+.stepIndicator {
+  position: absolute;
+  left: 1.75rem;
+  top: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: $black;
+  border: 2px solid $yellow;
+  border-radius: 50%;
+  z-index: 1;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: rgba($yellow, 0.2);
+    border-radius: 50%;
   }
 }
 
@@ -187,41 +296,70 @@
   font-size: 1.5rem;
   font-weight: 600;
   color: $white;
-  margin-bottom: 1.5rem;
+  margin-right: 2rem;
   position: relative;
   z-index: 2;
-  transition: all $transition-speed;
+  transition: all 0.3s ease;
   flex-shrink: 0;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.1);
+    background-color: rgba($yellow, 0.3);
+  }
+
+  &.active {
+    animation: pulse 2s infinite;
+  }
 }
 
 .stepContent {
   flex: 1;
-  padding: 0 1rem;
-  text-align: center;
+  text-align: left;
+  padding-right: 1rem;
 }
 
 .serviceTitle {
   font-size: 1.5rem;
   font-weight: 600;
   color: $white;
-  margin: 0 0 0.75rem 0;
-  text-align: center;
+  margin: 0;
+  text-align: left;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $yellow;
+  }
+}
+
+.descriptionContainer {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 0;
+
+  &.visible {
+    max-height: 500px;
+    opacity: 1;
+    margin-top: 1rem;
+  }
 }
 
 .serviceDescription {
   color: $gray-400;
   font-size: 1rem;
   line-height: 1.6;
-  text-align: center;
+  text-align: left;
+  margin: 0.75rem 0;
 }
 
 .statusBadge {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding-top: 0.25rem;
   width: 100%;
-  margin-top: 1rem;
 }
 
 .featureBadge {
@@ -256,6 +394,10 @@
   margin-top: 2rem;
   line-height: 1.5;
   letter-spacing: 0.02em;
+  animation: fadeInUp 0.8s ease-out;
+  animation-delay: 1s;
+  opacity: 0;
+  animation-fill-mode: forwards;
   
   @media (max-width: $breakpoint-sm) {
     margin-top: 1.5rem;
@@ -395,4 +537,349 @@
   margin-left: 0.5rem;
   background-color: rgba($yellow, 0.2);
   color: $yellow;
+}
+
+.configWrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  
+  @media (max-width: $breakpoint-md) {
+    padding: 1rem;
+  }
+}
+
+.servicesContainer {
+  margin: 2rem 0;
+  width: 100%;
+}
+
+.tabsContainer {
+  display: flex;
+  border-bottom: 1px solid rgba($white, 0.1);
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.tab {
+  padding: 1rem 2rem;
+  color: $gray-400;
+  cursor: pointer;
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: $white;
+  }
+
+  &.active {
+    color: $yellow;
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: $yellow;
+      animation: slideIn 0.3s ease-out;
+    }
+  }
+}
+
+.tabContent {
+  display: none;
+  animation: fadeInUp 0.5s ease-out;
+  width: 100%;
+
+  &.active {
+    display: block;
+  }
+}
+
+.servicesGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  margin: 0;
+  padding: 0 1rem;
+
+  @media (max-width: $breakpoint-md) {
+    padding: 0;
+  }
+}
+
+.independentServices {
+  flex: 0 0 300px;
+  
+  @media (max-width: $breakpoint-md) {
+    flex: auto;
+  }
+}
+
+.pipelineServices {
+  flex: 1;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  color: $white;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba($white, 0.1);
+}
+
+.serviceCard {
+  background-color: rgba($white, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  max-width: none;
+  
+  &:hover:not(.disabled) {
+    background-color: rgba($white, 0.1);
+    transform: translateX(5px);
+  }
+  
+  &.selected {
+    border-color: $yellow;
+    background-color: rgba($yellow, 0.05);
+    
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(180deg, $yellow, darken($yellow, 10%));
+    }
+  }
+  
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+    &:hover {
+      background-color: rgba($white, 0.05);
+      transform: none;
+    }
+  }
+}
+
+.serviceContent {
+  flex: 1;
+  margin-right: 2rem;
+  text-align: left;
+}
+
+.serviceName {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: $white;
+  margin: 0 0 0.5rem;
+  text-align: left;
+}
+
+.serviceDescription {
+  color: $gray-400;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0;
+  text-align: left;
+}
+
+.independentBadge {
+  display: inline-block;
+  background-color: rgba($yellow, 0.2);
+  color: $yellow;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  margin-top: 0.75rem;
+}
+
+.dependencies {
+  font-size: 0.75rem;
+  color: $gray-400;
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  background: rgba($white, 0.05);
+  border-radius: 6px;
+  border-left: 2px solid rgba($yellow, 0.5);
+
+  .required {
+    color: #ff4d4d;
+    font-weight: 500;
+  }
+
+  .recommended {
+    color: $yellow;
+    font-weight: 500;
+  }
+}
+
+.checkbox {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba($white, 0.2);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  
+  svg {
+    color: $yellow;
+  }
+  
+  .selected & {
+    border-color: $yellow;
+    background-color: rgba($yellow, 0.1);
+  }
+}
+
+.error {
+  color: #ff4d4d;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.submitButton {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: $yellow;
+  color: $black;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba($yellow, 0.3);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.uploadSection {
+  margin: 2rem 0;
+  width: 100%;
+  
+  .fileInput {
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &.dragging .uploadBox {
+      border-color: $yellow;
+      background: rgba($yellow, 0.05);
+      transform: scale(1.02);
+    }
+
+    .hiddenInput {
+      display: none;
+    }
+
+    .uploadBox {
+      border: 2px dashed #e0e0e0;
+      border-radius: 12px;
+      padding: 2.5rem;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.02);
+      transition: all 0.3s ease;
+      
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+
+      &:hover {
+        border-color: rgba($yellow, 0.5);
+        background: rgba($yellow, 0.02);
+      }
+
+      svg {
+        width: 48px;
+        height: 48px;
+        color: $yellow;
+        opacity: 0.8;
+        transition: all 0.3s ease;
+        
+        &:hover {
+          opacity: 1;
+          transform: translateY(-2px);
+        }
+      }
+
+      .uploadIcon {
+        margin-bottom: 1rem;
+      }
+
+      .uploadText {
+        font-size: 1.1rem;
+        color: #e0e0e0;
+        margin: 0;
+      }
+
+      .uploadSubtext {
+        font-size: 0.9rem;
+        color: #808080;
+        margin-top: 0.5rem;
+      }
+
+      .fileName {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba($yellow, 0.1);
+        border-radius: 6px;
+        margin-top: 1rem;
+
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+
+        span {
+          color: $yellow;
+        }
+      }
+    }
+  }
 } 
