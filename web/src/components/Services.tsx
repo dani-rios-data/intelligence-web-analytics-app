@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { 
   BarChart3, 
   TrendingUp, 
@@ -74,7 +73,6 @@ const services: ServiceItem[] = [
 ];
 
 export default function Services() {
-  const navigate = useNavigate();
   const { isDarkMode } = useTheme();
 
   // Group services by category
