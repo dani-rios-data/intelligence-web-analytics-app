@@ -22,7 +22,7 @@ const menuOptions: MenuOption[] = [
   {
     id: 'dashboard',
     title: 'Intelligence Dashboards',
-    description: 'View real-time analytics, performance metrics and comprehensive data insights',
+    description: 'Custom-built dashboards for specific projects and automated insights from platform data',
     icon: <BarChart3 className="w-6 h-6" strokeWidth={2} />,
     route: '/dashboard',
     color: 'from-teal-500 to-cyan-400',

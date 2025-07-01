@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'r
 import SignIn from './components/SignIn';
 import Menu from './components/Menu';
 import Services from './components/Services';
+import IntelligenceDashboards from './components/IntelligenceDashboards';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ThemeProvider } from './contexts/ThemeContext';
 
@@ -69,6 +70,19 @@ function App() {
                   {console.log('🔧 [Router] Rendering Services route')}
                   <ProtectedRoute>
                     <Services />
+                  </ProtectedRoute>
+                </>
+              } 
+            />
+            
+            {/* Dashboard route */}
+            <Route 
+              path="/dashboard" 
+              element={
+                <>
+                  {console.log('📊 [Router] Rendering IntelligenceDashboards route')}
+                  <ProtectedRoute>
+                    <IntelligenceDashboards />
                   </ProtectedRoute>
                 </>
               } 
