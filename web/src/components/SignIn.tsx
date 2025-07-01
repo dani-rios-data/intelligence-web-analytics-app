@@ -304,7 +304,8 @@ const SignIn: React.FC = () => {
               fontSize: '30px',
               fontWeight: 700,
               margin: 0,
-              textShadow: '0 0 20px rgba(255, 193, 7, 0.3)'
+              textShadow: '0 0 20px rgba(255, 193, 7, 0.3)',
+              animation: 'glowPulse 2s ease-in-out infinite alternate'
             }}>Disrupts Everything</h2>
             
           </div>
@@ -400,33 +401,37 @@ const SignIn: React.FC = () => {
               {/* Submit button */}
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={isLoading || !password.trim()}
                 style={{
                   width: '100%',
                   padding: '24px',
-                  background: 'linear-gradient(135deg, #ffc107 0%, #ff9800 100%)',
+                  background: (!password.trim() || isLoading) 
+                    ? 'rgba(255, 255, 255, 0.1)' 
+                    : 'linear-gradient(135deg, #ffc107 0%, #ff9800 100%)',
                   border: 'none',
                   borderRadius: '16px',
-                  color: '#000',
+                  color: (!password.trim() || isLoading) ? 'rgba(255, 255, 255, 0.3)' : '#000',
                   fontSize: '16px',
                   fontWeight: 700,
                   textTransform: 'uppercase',
                   letterSpacing: '1px',
-                  cursor: isLoading ? 'not-allowed' : 'pointer',
+                  cursor: (isLoading || !password.trim()) ? 'not-allowed' : 'pointer',
                   transition: 'all 0.3s ease',
-                  opacity: isLoading ? 0.7 : 1
+                  opacity: (isLoading || !password.trim()) ? 0.5 : 1
                 }}
                 onMouseEnter={(e) => {
-                  if (!isLoading) {
+                  if (!isLoading && password.trim()) {
                     const target = e.target as HTMLButtonElement;
                     target.style.transform = 'translateY(-2px)';
                     target.style.boxShadow = '0 10px 30px rgba(255, 193, 7, 0.3)';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  const target = e.target as HTMLButtonElement;
-                  target.style.transform = 'translateY(0)';
-                  target.style.boxShadow = 'none';
+                  if (!isLoading && password.trim()) {
+                    const target = e.target as HTMLButtonElement;
+                    target.style.transform = 'translateY(0)';
+                    target.style.boxShadow = 'none';
+                  }
                 }}
               >
                 {isLoading ? 'ACCESSING...' : 'ACCESS INTELLIGENCE →'}

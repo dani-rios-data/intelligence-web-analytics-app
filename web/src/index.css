@@ -16,3 +16,20 @@ body {
   background-color: #121212;
   color: #ffffff;
 } 
+
+/* Custom animations */
+@keyframes glowPulse {
+  0% {
+    text-shadow: 
+      0 0 20px rgba(255, 193, 7, 0.3),
+      0 0 30px rgba(255, 193, 7, 0.2),
+      0 0 40px rgba(255, 193, 7, 0.1);
+  }
+  100% {
+    text-shadow: 
+      0 0 30px rgba(255, 193, 7, 0.8),
+      0 0 40px rgba(255, 193, 7, 0.6),
+      0 0 50px rgba(255, 193, 7, 0.4),
+      0 0 60px rgba(255, 193, 7, 0.2);
+  }
+}
