@@ -4,7 +4,8 @@ import {
   LogOut,
   Menu as MenuIcon,
   X,
-  ChevronRight
+  ChevronRight,
+  ArrowLeft
 } from 'lucide-react';
 import { logout } from '../utils/auth';
 
@@ -33,7 +34,16 @@ export default function Header({ breadcrumbs = [] }: HeaderProps) {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-12">
           {/* Logo and Navigation */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            {/* Back Button */}
+            <button
+              onClick={() => navigate(-1)}
+              className="p-1.5 hover:bg-gray-600/20 rounded-lg transition-all duration-300 group"
+              title="Volver"
+            >
+              <ArrowLeft className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors duration-300" />
+            </button>
+            
             {/* Home Icon */}
             <button
               onClick={() => navigate('/menu')}
@@ -48,6 +58,8 @@ export default function Header({ breadcrumbs = [] }: HeaderProps) {
                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
               </svg>
             </button>
+            
+            <div className="flex items-center gap-4 ml-2">
             
             <img 
               src="/images/logo_tbwa_white.svg" 
@@ -82,6 +94,7 @@ export default function Header({ breadcrumbs = [] }: HeaderProps) {
                 ))}
               </div>
             )}
+            </div>
           </div>
 
           {/* Desktop Navigation */}
@@ -111,6 +124,14 @@ export default function Header({ breadcrumbs = [] }: HeaderProps) {
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-gray-700/50 py-3 backdrop-blur-sm">
             <div className="flex flex-col gap-2">
+              <button
+                onClick={() => navigate(-1)}
+                className="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-gray-200 hover:bg-gray-600/10 rounded-lg transition-all duration-300 text-sm font-medium"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Volver
+              </button>
+              
               <button
                 onClick={() => navigate('/menu')}
                 className="flex items-center gap-2 px-3 py-2 text-gray-300 hover:text-yellow-400 hover:bg-yellow-400/10 rounded-lg transition-all duration-300 text-sm font-medium"
