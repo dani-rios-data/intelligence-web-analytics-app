@@ -228,15 +228,15 @@ const SignIn: React.FC = () => {
               
               <div style={{
                 position: 'relative',
-                width: '240px',
-                height: '240px',
+                width: '280px',
+                height: '280px',
                 transform: 'translateX(-70px)'
               }}>
                 
                 {/* Main globe */}
                 <div style={{
-                  width: '192px',
-                  height: '192px',
+                  width: '220px',
+                  height: '220px',
                   borderRadius: '50%',
                   background: 'radial-gradient(circle at 30% 30%, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 30%, transparent 70%)',
                   border: '2px solid rgba(255, 193, 7, 0.2)',
@@ -244,8 +244,7 @@ const SignIn: React.FC = () => {
                   top: '50%',
                   left: '50%',
                   transform: 'translate(-50%, -50%)',
-                  animation: 'rotate 20s linear infinite',
-                  boxShadow: '0 0 32px rgba(255, 193, 7, 0.2), inset 0 0 32px rgba(255, 193, 7, 0.1)'
+                  boxShadow: '0 0 40px rgba(255, 193, 7, 0.3), inset 0 0 40px rgba(255, 193, 7, 0.1)'
                 }}>
                   
                   {/* Globe GIF */}
@@ -256,7 +255,7 @@ const SignIn: React.FC = () => {
                       position: 'absolute',
                       top: '50%',
                       left: '50%',
-                      transform: 'translate(-50%, -50%) scaleY(-1)',
+                      transform: 'translate(-50%, -50%)',
                       width: '100%',
                       height: '100%',
                       borderRadius: '50%',
@@ -264,30 +263,28 @@ const SignIn: React.FC = () => {
                     }}
                   />
                   
-                  {/* Orbit 1 */}
+                  {/* Static Orbit 1 */}
                   <div style={{
                     position: 'absolute',
-                    border: '1px solid rgba(255, 193, 7, 0.1)',
+                    border: '1px solid rgba(255, 193, 7, 0.15)',
                     borderRadius: '50%',
                     top: '50%',
                     left: '50%',
-                    width: '216px',
-                    height: '216px',
-                    transform: 'translate(-50%, -50%)',
-                    animation: 'rotate 15s linear infinite reverse'
+                    width: '240px',
+                    height: '240px',
+                    transform: 'translate(-50%, -50%)'
                   }}></div>
                   
-                  {/* Orbit 2 */}
+                  {/* Static Orbit 2 */}
                   <div style={{
                     position: 'absolute',
                     border: '1px solid rgba(255, 193, 7, 0.1)',
                     borderRadius: '50%',
                     top: '50%',
                     left: '50%',
-                    width: '232px',
-                    height: '232px',
-                    transform: 'translate(-50%, -50%)',
-                    animation: 'rotate 25s linear infinite reverse'
+                    width: '260px',
+                    height: '260px',
+                    transform: 'translate(-50%, -50%)'
                   }}></div>
                   
                 </div>
