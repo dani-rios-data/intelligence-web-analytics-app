@@ -265,6 +265,102 @@ export default function IntelligenceDashboards() {
                   );
                 })}
               </div>
+
+              {/* Contact Analytics Team Section */}
+              <div className="mt-12 bg-gray-100 rounded-xl p-6 border border-gray-200">
+                <div className="text-center mb-6">
+                  <h3 className="text-xl font-grotesk-bold text-gray-900 mb-2">Need a Special Project Dashboard?</h3>
+                  <p className="text-gray-600 text-sm max-w-2xl mx-auto">
+                    Working on a unique client account? Our Data Strategy team can help create tailored insights.
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+                  {/* Mehdi Mollahasani */}
+                  <div className="bg-white rounded-lg p-4 border border-gray-100 hover:shadow-md transition-all duration-300">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <img 
+                          src="/images/Microsoft_Office_Outlook_(2018–present).svg" 
+                          alt="Email" 
+                          className="w-4 h-4"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-grotesk-bold text-gray-900 text-sm">Mehdi Mollahasani</h4>
+                        <p className="text-xs text-blue-600">Director, Data Strategy</p>
+                      </div>
+                    </div>
+                    <a 
+                      href="mailto:mehdi.mollahasani@tbwachiat.com"
+                      className="inline-flex items-center gap-1 text-xs text-gray-600 hover:text-blue-600 transition-colors duration-300 mt-3"
+                    >
+                      <span>mehdi.mollahasani@tbwachiat.com</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+
+                  {/* Oscar Perez */}
+                  <div className="bg-white rounded-lg p-4 border border-gray-100 hover:shadow-md transition-all duration-300">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <img 
+                          src="/images/Microsoft_Office_Outlook_(2018–present).svg" 
+                          alt="Email" 
+                          className="w-4 h-4"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-grotesk-bold text-gray-900 text-sm">Oscar Perez</h4>
+                        <p className="text-xs text-purple-600">Senior Data Strategist</p>
+                      </div>
+                    </div>
+                    <a 
+                      href="mailto:oscar.perez@tbwachiat.com"
+                      className="inline-flex items-center gap-1 text-xs text-gray-600 hover:text-purple-600 transition-colors duration-300 mt-3"
+                    >
+                      <span>oscar.perez@tbwachiat.com</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+
+                  {/* Daniela Rios */}
+                  <div className="bg-white rounded-lg p-4 border border-gray-100 hover:shadow-md transition-all duration-300">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-teal-100 rounded-lg flex items-center justify-center">
+                        <img 
+                          src="/images/Microsoft_Office_Outlook_(2018–present).svg" 
+                          alt="Email" 
+                          className="w-4 h-4"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-grotesk-bold text-gray-900 text-sm">Daniela Rios</h4>
+                        <p className="text-xs text-teal-600">Senior Data Analyst</p>
+                      </div>
+                    </div>
+                    <a 
+                      href="mailto:daniela.rios@tbwachiat.com"
+                      className="inline-flex items-center gap-1 text-xs text-gray-600 hover:text-teal-600 transition-colors duration-300 mt-3"
+                    >
+                      <span>daniela.rios@tbwachiat.com</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                </div>
+
+                {/* Teams Alternative */}
+                <div className="mt-6 text-center">
+                  <div className="inline-flex items-center gap-2 text-xs text-gray-600">
+                    <img 
+                      src="/images/Microsoft_Office_Teams_(2018–present).svg" 
+                      alt="Teams" 
+                      className="w-4 h-4"
+                    />
+                    <span>Or reach us via <span className="font-medium text-purple-600">Microsoft Teams</span> - TBWA Analytics Team</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}
