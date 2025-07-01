@@ -20,7 +20,8 @@ interface ServiceItem {
   status: 'active' | 'coming-soon';
   icon: React.ComponentType<{ className?: string }>;
   color: string;
-  tag: 'AI Assistant' | 'Analytics';
+  bgColor: string;
+  tag: 'Chatbot & Virtual Assistant' | 'Analytics Platform';
 }
 
 const services: ServiceItem[] = [
@@ -31,8 +32,9 @@ const services: ServiceItem[] = [
     category: 'Global Intelligence',
     status: 'coming-soon',
     icon: Bot,
-    color: 'from-purple-400/20 to-indigo-400/10',
-    tag: 'AI Assistant'
+    color: 'from-purple-600 to-purple-800',
+    bgColor: 'bg-purple-50 border-purple-200',
+    tag: 'Chatbot & Virtual Assistant'
   },
   {
     id: 'gwi-travel',
@@ -40,9 +42,10 @@ const services: ServiceItem[] = [
     description: 'Specialized travel and tourism intelligence virtual assistant',
     category: 'Travel Intelligence',
     status: 'coming-soon',
-    icon: MapPin,
-    color: 'from-emerald-400/20 to-teal-400/10',
-    tag: 'AI Assistant'
+    icon: Bot,
+    color: 'from-emerald-500 to-teal-600',
+    bgColor: 'bg-emerald-50 border-emerald-200',
+    tag: 'Chatbot & Virtual Assistant'
   },
   {
     id: 'gwi-usa',
@@ -50,9 +53,10 @@ const services: ServiceItem[] = [
     description: 'US-focused market intelligence and consumer behavior chatbot',
     category: 'US Market Intelligence',
     status: 'coming-soon',
-    icon: Globe,
-    color: 'from-blue-400/20 to-cyan-400/10',
-    tag: 'AI Assistant'
+    icon: Bot,
+    color: 'from-blue-500 to-blue-700',
+    bgColor: 'bg-blue-50 border-blue-200',
+    tag: 'Chatbot & Virtual Assistant'
   },
   {
     id: 'ad-investment',
@@ -61,8 +65,9 @@ const services: ServiceItem[] = [
     category: 'Investment Analytics',
     status: 'coming-soon',
     icon: TrendingUp,
-    color: 'from-green-400/20 to-emerald-400/10',
-    tag: 'Analytics'
+    color: 'from-green-500 to-green-700',
+    bgColor: 'bg-green-50 border-green-200',
+    tag: 'Analytics Platform'
   },
   {
     id: 'audience-analyzer',
@@ -71,8 +76,9 @@ const services: ServiceItem[] = [
     category: 'Audience Intelligence',
     status: 'coming-soon',
     icon: Users,
-    color: 'from-orange-400/20 to-red-400/10',
-    tag: 'Analytics'
+    color: 'from-orange-500 to-orange-700',
+    bgColor: 'bg-orange-50 border-orange-200',
+    tag: 'Analytics Platform'
   }
 ];
 
@@ -89,107 +95,106 @@ export default function Services() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col transition-colors duration-300" style={{ backgroundColor: '#0a0a0a' }}>
-      <Header breadcrumbs={breadcrumbs} />
+    <div className="min-h-screen flex flex-col">
+      {/* Header Negro */}
+      <div style={{ backgroundColor: '#121212' }}>
+        <Header breadcrumbs={breadcrumbs} />
+      </div>
       
-      {/* Main Content Container */}
-      <div className="flex-grow">
-        {/* Main Content */}
-        <main className="px-6 py-16 pt-24">
+      {/* Main Content Blanco */}
+      <div className="flex-grow bg-white">
+        <main className="px-8 py-12 pt-20">
           <div className="max-w-6xl mx-auto">
-            {/* Hero Section - More minimal */}
+            {/* Hero Section */}
             <div className="text-center mb-16">
-              <div className="inline-block px-4 py-2 bg-gray-800/30 rounded-full border border-gray-700/50 mb-6">
-                <span className="text-gray-400 text-sm font-medium">Intelligence Services</span>
-              </div>
-              <h1 className="text-4xl md:text-6xl font-grotesk-black text-white mb-6 tracking-tight">
-                AI-Powered{' '}
-                <span className="text-transparent bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text">
-                  Solutions
-                </span>
+              <h1 className="text-4xl md:text-6xl font-grotesk-black text-gray-900 mb-6">
+                Intelligence{' '}
+                <span className="text-yellow-400 mx-2 font-grotesk-black">\</span>
+                Services
               </h1>
-              <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed font-light">
-                Comprehensive suite of intelligent tools for data-driven insights
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Access our comprehensive suite of AI-powered chatbots and analytics platforms
               </p>
             </div>
 
-            {/* Services Grid - More spacing and minimal design */}
-            <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6 max-w-6xl mx-auto mb-16">
+            {/* Services Grid */}
+            <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
               {services.map((service, index) => {
                 const IconComponent = service.icon;
                 return (
                   <div
                     key={service.id}
                     onClick={() => handleServiceClick(service.url)}
-                    className={`group relative bg-gradient-to-br ${service.color} backdrop-blur-sm rounded-2xl border border-gray-800/50 hover:border-gray-700/70 p-8 transition-all duration-500 hover:transform hover:scale-105 ${
+                    className={`${service.bgColor} rounded-2xl border-2 p-8 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl group ${
                       service.url ? 'cursor-pointer' : 'cursor-default'
-                    } hover:shadow-2xl hover:shadow-purple-500/5`}
+                    }`}
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
-                    {/* Background subtle gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent rounded-2xl"></div>
-                    
-                    {/* Content */}
-                    <div className="relative">
-                      {/* Header */}
-                      <div className="flex items-start justify-between mb-6">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 bg-gray-800/40 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-gray-700/30">
-                            <IconComponent className="w-6 h-6 text-gray-300" />
-                          </div>
-                          <div>
-                            <h3 className="text-xl font-grotesk-bold text-white group-hover:text-gray-100 transition-colors duration-300 mb-1">
-                              {service.name}
-                            </h3>
-                            <span className={`px-3 py-1 rounded-full text-xs font-medium border ${
-                              service.tag === 'AI Assistant' 
-                                ? 'bg-purple-500/10 text-purple-300 border-purple-500/20' 
-                                : 'bg-blue-500/10 text-blue-300 border-blue-500/20'
+                    <div className="flex items-start justify-between mb-6">
+                      <div className="flex items-center gap-4">
+                        <div className={`w-16 h-16 bg-gradient-to-br ${service.color} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                          <IconComponent className="w-8 h-8 text-white" />
+                        </div>
+                        <div>
+                          <h2 className="text-2xl font-grotesk-bold text-gray-900 group-hover:text-gray-700 transition-colors duration-300">
+                            {service.name}
+                          </h2>
+                          <div className="flex items-center gap-2 mt-2">
+                            <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                              service.tag === 'Chatbot & Virtual Assistant' 
+                                ? 'bg-purple-100 text-purple-700 border border-purple-200' 
+                                : 'bg-blue-100 text-blue-700 border border-blue-200'
                             }`}>
                               {service.tag}
                             </span>
                           </div>
                         </div>
-                        
-                        {/* Status */}
-                        <div className="flex flex-col items-end gap-2">
-                          <span className="text-xs font-medium text-amber-400/80 bg-amber-400/10 px-2 py-1 rounded-full border border-amber-400/20">
+                      </div>
+                      <div className="flex items-center gap-3">
+                        {service.status === 'active' ? (
+                          <span className="flex items-center gap-2 text-green-600 text-sm font-medium bg-green-50 px-3 py-1 rounded-full border border-green-200">
+                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                            Active
+                          </span>
+                        ) : (
+                          <span className="text-sm font-medium text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
                             Coming Soon
                           </span>
-                          {service.url && (
-                            <ExternalLink className="w-4 h-4 text-gray-500 group-hover:text-gray-300 transition-colors duration-300" />
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Description */}
-                      <p className="text-gray-400 leading-relaxed mb-6 text-sm font-light group-hover:text-gray-300 transition-colors duration-300">
-                        {service.description}
-                      </p>
-
-                      {/* Footer */}
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-500 text-xs font-medium">
-                          {service.category}
-                        </span>
+                        )}
                         {service.url && (
-                          <button className="px-4 py-2 bg-white/10 backdrop-blur-sm text-white font-medium text-sm rounded-lg hover:bg-white/20 transition-all duration-300 border border-white/10 hover:border-white/20">
-                            Launch
-                          </button>
+                          <ExternalLink className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors duration-300" />
                         )}
                       </div>
+                    </div>
+
+                    <p className="text-gray-700 leading-relaxed mb-6 text-base group-hover:text-gray-800 transition-colors duration-300">
+                      {service.description}
+                    </p>
+
+                    <div className="flex items-center justify-between">
+                      <div className="text-gray-500 text-sm font-medium">
+                        {service.category}
+                      </div>
+                      {service.url && (
+                        <button className="px-6 py-3 bg-gray-900 text-white font-medium text-sm rounded-xl hover:bg-gray-800 transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl">
+                          Open Application
+                        </button>
+                      )}
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            {/* Bottom CTA - Minimal */}
-            <div className="text-center">
-              <div className="inline-flex items-center gap-3 bg-gray-900/30 backdrop-blur-sm rounded-2xl border border-gray-800/50 p-6 max-w-md mx-auto">
-                <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-                <p className="text-gray-400 text-sm font-light">
-                  More intelligent solutions in development
+            {/* Additional Info Section */}
+            <div className="mt-16 text-center">
+              <div className="bg-gray-50 rounded-2xl border-2 border-gray-100 p-8 max-w-3xl mx-auto">
+                <h3 className="text-2xl font-grotesk-bold text-gray-900 mb-4">
+                  More Services Coming Soon
+                </h3>
+                <p className="text-gray-600 text-base leading-relaxed">
+                  We're continuously expanding our intelligence services portfolio. 
+                  Stay tuned for more AI-powered solutions and analytics platforms.
                 </p>
               </div>
             </div>
@@ -197,12 +202,15 @@ export default function Services() {
         </main>
       </div>
 
-      {/* Footer - Simplified */}
-      <footer className="border-t border-gray-800/50 bg-black/20 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between text-sm">
-          <span className="text-gray-500 font-light">© 2025 TBWA Intelligence</span>
-          <span className="text-gray-400 font-grotesk-bold tracking-wider">DISRUPTION</span>
+      {/* Footer Negro */}
+      <footer className="h-12 bg-black/90 backdrop-blur-md border-t border-gray-800/50 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-gray-900 to-black opacity-80"></div>
+        <div className="relative h-full flex items-center justify-between px-8 text-white">
+          <span className="text-sm font-medium">© 2025 TBWA Intelligence</span>
+          <span className="text-sm font-grotesk-bold tracking-wider">DISRUPTION</span>
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-yellow-400/30 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20"></div>
       </footer>
     </div>
   );
