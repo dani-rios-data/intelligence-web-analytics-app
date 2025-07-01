@@ -1,0 +1,104 @@
+/* TBWA Grotesk Official Fonts */
+
+/* Regular */
+@font-face {
+  font-family: 'TBWAGrotesk';
+  src: url('../brand-assets/Font-WEB/TBWAGrotesk-Regular.woff2') format('woff2'),
+       url('../brand-assets/Font-WEB/TBWAGrotesk-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Light */
+@font-face {
+  font-family: 'TBWAGrotesk-Light';
+  src: url('../brand-assets/Font-WEB/TBWAGrotesk-Light.woff2') format('woff2'),
+       url('../brand-assets/Font-WEB/TBWAGrotesk-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Medium */
+@font-face {
+  font-family: 'TBWAGrotesk-Medium';
+  src: url('../brand-assets/Font-WEB/TBWAGrotesk-Medium.woff2') format('woff2'),
+       url('../brand-assets/Font-WEB/TBWAGrotesk-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* SemiBold */
+@font-face {
+  font-family: 'TBWAGrotesk-SemiBold';
+  src: url('../brand-assets/Font-WEB/TBWAGrotesk-SemiBold.woff2') format('woff2'),
+       url('../brand-assets/Font-WEB/TBWAGrotesk-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Bold */
+@font-face {
+  font-family: 'TBWAGrotesk-Bold';
+  src: url('../brand-assets/Font-WEB/TBWAGrotesk-Bold.woff2') format('woff2'),
+       url('../brand-assets/Font-WEB/TBWAGrotesk-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Black */
+@font-face {
+  font-family: 'TBWAGrotesk-Black';
+  src: url('../brand-assets/Font-WEB/TBWAGrotesk-Black.woff2') format('woff2'),
+       url('../brand-assets/Font-WEB/TBWAGrotesk-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Backslash Regular - TBWA Signature Style */
+@font-face {
+  font-family: 'TBWAGrotesk-BackslashRegular';
+  src: url('../brand-assets/Font-WEB/TBWAGrotesk-BackslashRegular.woff2') format('woff2'),
+       url('../brand-assets/Font-WEB/TBWAGrotesk-BackslashRegular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Backslash Bold - For Headlines */
+@font-face {
+  font-family: 'TBWAGrotesk-BackslashBold';
+  src: url('../brand-assets/Font-WEB/TBWAGrotesk-BackslashBold.woff2') format('woff2'),
+       url('../brand-assets/Font-WEB/TBWAGrotesk-BackslashBold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Variable Font - All weights and styles */
+@font-face {
+  font-family: 'TBWA-Grotesk-VF';
+  src: url('../brand-assets/Font-WEB/VAR/TBWA-Grotesk-VF.woff2') format('woff2'),
+       url('../brand-assets/Font-WEB/VAR/TBWA-Grotesk-VF.woff') format('woff');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* CSS Custom Properties for easy usage */
+:root {
+  --font-tbwa-regular: 'TBWAGrotesk', system-ui, -apple-system, sans-serif;
+  --font-tbwa-light: 'TBWAGrotesk-Light', system-ui, -apple-system, sans-serif;
+  --font-tbwa-medium: 'TBWAGrotesk-Medium', system-ui, -apple-system, sans-serif;
+  --font-tbwa-semibold: 'TBWAGrotesk-SemiBold', system-ui, -apple-system, sans-serif;
+  --font-tbwa-bold: 'TBWAGrotesk-Bold', system-ui, -apple-system, sans-serif;
+  --font-tbwa-black: 'TBWAGrotesk-Black', system-ui, -apple-system, sans-serif;
+  --font-tbwa-backslash: 'TBWAGrotesk-BackslashRegular', system-ui, -apple-system, sans-serif;
+  --font-tbwa-backslash-bold: 'TBWAGrotesk-BackslashBold', system-ui, -apple-system, sans-serif;
+  --font-tbwa-variable: 'TBWA-Grotesk-VF', system-ui, -apple-system, sans-serif;
+} 

@@ -1,72 +1,33 @@
 {
-  "name": "tbwa-intelligence-platform",
+  "name": "tbwa-intelligence-simple",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS=\"--no-warnings --max-old-space-size=4096 --require=./next-logger.js\" next dev",
-    "build": "cross-env NODE_OPTIONS=\"--no-warnings --max-old-space-size=4096 --require=./next-logger.js\" next build",
-    "start": "cross-env NODE_OPTIONS=\"--no-warnings --require=./next-logger.js\" next start",
-    "lint": "next lint",
-    "type-check": "tsc --noEmit",
-    "format": "prettier --write \"**/*.{ts,tsx,scss,css,json}\"",
-    "analyze": "cross-env ANALYZE=true NODE_OPTIONS=\"--no-warnings --require=./next-logger.js\" next build",
-    "clean": "rimraf .next out",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "postinstall": "husky install"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@next-auth/prisma-adapter": "^1.0.7",
-    "@supabase/auth-helpers-nextjs": "^0.10.0",
-    "@supabase/supabase-js": "^2.48.1",
-    "archiver": "^7.0.1",
-    "axios": "^1.8.1",
-    "formidable": "^3.5.2",
-    "jszip": "^3.10.1",
-    "lucide-react": "^0.475.0",
-    "next": "15.1.7",
-    "next-auth": "^4.24.11",
-    "nodemailer": "^6.10.0",
-    "papaparse": "^5.5.2",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "xlsx-js-style": "^1.2.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1",
+    "lucide-react": "^0.475.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@testing-library/jest-dom": "^6.4.2",
-    "@testing-library/react": "^15.0.0",
-    "@types/archiver": "^6.0.3",
-    "@types/formidable": "^3.4.5",
-    "@types/jest": "^29.5.12",
-    "@types/node": "^20",
-    "@types/papaparse": "^5.3.15",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/react": "^18.2.56",
+    "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.20",
-    "cross-env": "^7.0.3",
-    "eslint": "^9",
-    "eslint-config-next": "15.1.7",
-    "eslint-config-prettier": "^9.1.0",
-    "husky": "^9.0.11",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "lint-staged": "^15.2.2",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
     "postcss": "^8.5.3",
-    "postcss-import": "^16.1.0",
-    "prettier": "^3.2.5",
-    "rimraf": "^5.0.5",
-    "sass": "^1.85.1",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,css,scss,md}": [
-      "prettier --write"
-    ]
+    "typescript": "^5.2.2",
+    "vite": "^5.1.4"
   }
 }

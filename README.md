@@ -1,40 +1,86 @@
-# Web Analytics App
+# TBWA Intelligence - Simple React App
 
-This project is a web-based analytics platform that processes data through various microservices. Users can upload CSV or Excel files for different services and receive analytical responses.
+Una aplicación React simple y limpia para la plataforma de inteligencia TBWA.
 
-## Project Structure
+## 🚀 Stack Tecnológico
 
-The project is divided into two main components:
+- **React 18** - Framework principal
+- **Vite** - Build tool y desarrollo  
+- **TypeScript** - Tipado estático
+- **Tailwind CSS** - Estilos utilitarios
+- **React Router** - Navegación
+- **Lucide React** - Iconografía
 
-### Microservices
-The `microservices/` directory contains various API services that process the uploaded data. Each microservice is configured to:
-- Accept CSV/Excel file uploads
-- Process the data according to specific business rules
-- Return analytical results
+## 🔐 Autenticación
 
-### Web Application
-The `web/` directory contains the frontend application where users can:
-- Select different types of services
-- Upload data files (CSV/Excel)
-- Visualize and download the processed results
+Sistema de autenticación simple basado en contraseña:
 
-## Current Status
+- **Contraseña**: `TBWAIntelligence2024!`
+- **Seguridad**: 5 intentos máximos, bloqueo de 5 minutos
+- **Sesión**: 1 hora de duración automática
 
-- ✅ Microservices: Initial API service implemented
-- 🚧 Web Interface: Currently under development
+## 📁 Estructura del Proyecto
 
-## Setup Instructions
+```
+src/
+├── components/
+│   ├── SignIn.tsx          # Página de login
+│   ├── Services.tsx        # Dashboard principal
+│   └── ProtectedRoute.tsx  # Wrapper de rutas protegidas
+├── utils/
+│   └── auth.ts            # Lógica de autenticación
+├── App.tsx                # Componente principal
+├── main.tsx              # Punto de entrada
+└── index.css             # Estilos globales
+```
 
-[Coming soon]
+## 🛠️ Desarrollo
 
-## How to Run
+```bash
+# Instalar dependencias
+npm install
 
-[Coming soon]
+# Ejecutar en desarrollo
+npm run dev
 
-## Contributing
+# Build para producción
+npm run build
 
-[Coming soon]
+# Preview de producción
+npm run preview
+```
 
-## License
+## 🎨 Diseño
 
-This project is licensed under the MIT License. 
+- **Tema**: Fondo negro con acentos dorados
+- **Responsive**: Adaptable a móviles y escritorio
+- **Animaciones**: Transiciones suaves y micro-interacciones
+- **Iconografía**: Lucide React icons
+
+## 📄 Rutas
+
+- `/` - Redirige a signin
+- `/signin` - Página de autenticación  
+- `/services` - Dashboard principal (protegida)
+
+## 🔧 Configuración
+
+El archivo `tailwind.config.js` incluye los colores personalizados:
+- Yellow: `#FFD700` (color principal)
+- Black: `#000000` (fondo)
+
+## 📦 Dependencias Principales
+
+```json
+{
+  "react": "^18.2.0",
+  "react-dom": "^18.2.0",
+  "react-router-dom": "^6.8.1",
+  "lucide-react": "^0.263.1",
+  "tailwindcss": "^3.3.0"
+}
+```
+
+---
+
+**Proyecto simplificado**: React + Vite + Tailwind para máxima eficiencia y facilidad de mantenimiento. 
