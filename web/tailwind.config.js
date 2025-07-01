@@ -32,11 +32,28 @@ export default {
         black: '#000000',
         white: '#FFFFFF',
         
-        // Tema oscuro
+        // Tema oscuro - Exact colors from example
         'dark-bg': '#121212',
+        'dark-surface': '#1E1E1E',
+        'dark-border': '#2A2A2A',
+        'dark-text-secondary': '#A0A0A0',
         'dark-medium': '#0C1220',
         'dark-light': '#0F1729',
         'card-bg': '#1e1e1e',
+        
+        // Light theme colors
+        'light-bg': '#FFFFFF',
+        'light-surface': '#FAFAFA',
+        'light-text': '#1A1A1A',
+        'light-text-secondary': '#6B7280',
+        'light-border': '#E5E7EB',
+        
+        // Accent colors from example
+        'accent-teal': '#00D4AA',
+        'accent-blue': '#0084FF',
+        'accent-aqua': '#00C9FF',
+        'accent-green': '#00E676',
+        'accent-purple': '#7C4DFF',
         
         // Textos
         'text-light': '#ffffff',
