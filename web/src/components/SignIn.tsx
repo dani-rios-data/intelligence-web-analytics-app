@@ -316,9 +316,9 @@ const SignIn: React.FC = () => {
             backdropFilter: 'blur(20px)',
             background: 'rgba(255, 255, 255, 0.02)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '19px',
-            padding: '32px',
-            boxShadow: '0 16px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+            borderRadius: '16px',
+            padding: '24px',
+            boxShadow: '0 12px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
           }}>
             
             {/* Form title */}
@@ -335,7 +335,7 @@ const SignIn: React.FC = () => {
             <p style={{
               color: 'rgba(255, 255, 255, 0.7)',
               fontSize: '11px',
-              margin: '0 0 26px 0',
+              margin: '0 0 20px 0',
               lineHeight: 1.5
             }}>Please enter your credentials to access the intelligence platform</p>
              
@@ -343,7 +343,7 @@ const SignIn: React.FC = () => {
             <form onSubmit={handleSubmit} style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '26px'
+              gap: '20px'
             }}>
               
               {/* Password input */}
@@ -454,14 +454,14 @@ const SignIn: React.FC = () => {
             {/* Footer */}
             <div style={{
               textAlign: 'center',
-              marginTop: '40px'
+              marginTop: '28px'
             }}>
               
               <p style={{
                 color: 'rgba(255, 255, 255, 0.3)',
                 fontSize: '12px',
                 lineHeight: 1.6,
-                margin: '0 0 32px 0'
+                margin: '0 0 24px 0'
               }}>
                 FOR SOME <span style={{ color: '#ffc107', fontWeight: 600 }}>"GOOD ENOUGH"</span> WILL ALWAYS BE ENOUGH.<br/>
                 BUT MAYBE NOT FOR YOU. <span style={{ color: '#ffc107', fontWeight: 600 }}>WELCOME.</span>
