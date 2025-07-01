@@ -199,7 +199,7 @@ const SignIn: React.FC = () => {
             
             {/* Main title */}
             <h1 className="main-title" style={{
-              fontSize: '60px',
+              fontSize: '48px',
               fontWeight: 900,
               lineHeight: '0.9',
               margin: 0,
@@ -222,21 +222,21 @@ const SignIn: React.FC = () => {
             <div style={{
               display: 'flex',
               justifyContent: 'center',
-              margin: '24px 0',
+              margin: '19px 0',
               position: 'relative'
             }}>
               
               <div style={{
                 position: 'relative',
-                width: '280px',
-                height: '280px',
-                transform: 'translateX(-70px)'
+                width: '224px',
+                height: '224px',
+                transform: 'translateX(-56px)'
               }}>
                 
                 {/* Main globe */}
                 <div style={{
-                  width: '220px',
-                  height: '220px',
+                  width: '176px',
+                  height: '176px',
                   borderRadius: '50%',
                   background: 'radial-gradient(circle at 30% 30%, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 30%, transparent 70%)',
                   border: '2px solid rgba(255, 193, 7, 0.2)',
@@ -244,12 +244,12 @@ const SignIn: React.FC = () => {
                   top: '50%',
                   left: '50%',
                   transform: 'translate(-50%, -50%)',
-                  boxShadow: '0 0 40px rgba(255, 193, 7, 0.3), inset 0 0 40px rgba(255, 193, 7, 0.1)'
+                  boxShadow: '0 0 32px rgba(255, 193, 7, 0.3), inset 0 0 32px rgba(255, 193, 7, 0.1)'
                 }}>
                   
                   {/* Globe GIF */}
                  <img 
-                   src="/brand-assets/animaciones/Yellow-Globe/Yellow-Globe/globe.gif" 
+                   src="/images/globe.gif" 
                     alt="Globe"
                     style={{
                       position: 'absolute',
@@ -270,8 +270,8 @@ const SignIn: React.FC = () => {
                     borderRadius: '50%',
                     top: '50%',
                     left: '50%',
-                    width: '240px',
-                    height: '240px',
+                    width: '192px',
+                    height: '192px',
                     transform: 'translate(-50%, -50%)'
                   }}></div>
                   
@@ -282,8 +282,8 @@ const SignIn: React.FC = () => {
                     borderRadius: '50%',
                     top: '50%',
                     left: '50%',
-                    width: '260px',
-                    height: '260px',
+                    width: '208px',
+                    height: '208px',
                     transform: 'translate(-50%, -50%)'
                   }}></div>
                   
@@ -294,14 +294,14 @@ const SignIn: React.FC = () => {
             {/* Subtitle and tagline */}
             <p style={{
               color: '#b0b0b0',
-              fontSize: '18px',
+              fontSize: '14px',
               fontWeight: 300,
               margin: 0
             }}>Intelligence that</p>
             
             <h2 className="hero-tagline" style={{
               color: '#ffc107',
-              fontSize: '30px',
+              fontSize: '24px',
               fontWeight: 700,
               margin: 0,
               textShadow: '0 0 20px rgba(255, 193, 7, 0.3)',
@@ -315,17 +315,17 @@ const SignIn: React.FC = () => {
             backdropFilter: 'blur(20px)',
             background: 'rgba(255, 255, 255, 0.02)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '24px',
-            padding: '40px',
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+            borderRadius: '19px',
+            padding: '32px',
+            boxShadow: '0 16px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
           }}>
             
             {/* Form title */}
             <h3 style={{
               color: '#ffffff',
-              fontSize: '18px',
+              fontSize: '14px',
               fontWeight: 700,
-              margin: '0 0 8px 0',
+              margin: '0 0 6px 0',
               textTransform: 'uppercase',
               letterSpacing: '2px'
             }}>Secure Access Required</h3>
@@ -333,8 +333,8 @@ const SignIn: React.FC = () => {
             {/* Form description */}
             <p style={{
               color: 'rgba(255, 255, 255, 0.7)',
-              fontSize: '14px',
-              margin: '0 0 32px 0',
+              fontSize: '11px',
+              margin: '0 0 26px 0',
               lineHeight: 1.5
             }}>Please enter your credentials to access the intelligence platform</p>
              
@@ -342,7 +342,7 @@ const SignIn: React.FC = () => {
             <form onSubmit={handleSubmit} style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '32px'
+              gap: '26px'
             }}>
               
               {/* Password input */}
@@ -355,12 +355,12 @@ const SignIn: React.FC = () => {
                    disabled={isLoading}
                   style={{
                     width: '100%',
-                    padding: '24px',
+                    padding: '19px',
                     background: 'rgba(255, 255, 255, 0.05)',
                     border: '2px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '16px',
+                    borderRadius: '13px',
                     color: '#ffffff',
-                    fontSize: '16px',
+                    fontSize: '13px',
                     outline: 'none',
                     transition: 'all 0.3s ease'
                   }}
@@ -384,14 +384,14 @@ const SignIn: React.FC = () => {
                   onClick={togglePassword}
                   style={{
                     position: 'absolute',
-                    right: '24px',
+                    right: '19px',
                     top: '50%',
                     transform: 'translateY(-50%)',
                     background: 'none',
                     border: 'none',
                     color: 'rgba(255, 255, 255, 0.4)',
                     cursor: 'pointer',
-                    fontSize: '20px'
+                    fontSize: '16px'
                   }}
                 >
                   {showPassword ? '🙈' : '👁'}
@@ -404,14 +404,14 @@ const SignIn: React.FC = () => {
                 disabled={isLoading || !password.trim()}
                 style={{
                   width: '100%',
-                  padding: '24px',
+                  padding: '19px',
                   background: (!password.trim() || isLoading) 
                     ? 'rgba(255, 255, 255, 0.1)' 
                     : 'linear-gradient(135deg, #ffc107 0%, #ff9800 100%)',
                   border: 'none',
-                  borderRadius: '16px',
+                  borderRadius: '13px',
                   color: (!password.trim() || isLoading) ? 'rgba(255, 255, 255, 0.3)' : '#000',
-                  fontSize: '16px',
+                  fontSize: '13px',
                   fontWeight: 700,
                   textTransform: 'uppercase',
                   letterSpacing: '1px',
