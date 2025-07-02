@@ -24,6 +24,8 @@ __pycache__/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
 # Build directories
 dist/
@@ -61,3 +63,9 @@ build/
 
 # Ignorar la carpeta de build de Next.js
 .next/
+
+# Chatbot projects - separate repositories
+GWI_CORE/
+GWI_TRAVEL/
+GWI_USA/
+Capital One/
