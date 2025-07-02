@@ -1,6 +1,6 @@
 import React from 'react';
 import { 
-  Users, 
+  Users,
   ExternalLink,
   Bot,
   TrendingUp
@@ -96,7 +96,7 @@ export default function Services() {
     <div className="min-h-screen flex flex-col">
       {/* Header Negro */}
       <div style={{ backgroundColor: '#121212' }}>
-        <Header breadcrumbs={breadcrumbs} />
+      <Header breadcrumbs={breadcrumbs} />
       </div>
       
       {/* Main Content Blanco */}
@@ -104,24 +104,24 @@ export default function Services() {
         <main className="px-6 py-8 pt-16">
           <div className="max-w-5xl mx-auto">
             {/* Hero Section */}
-            <div className="text-center mb-12">
+          <div className="text-center mb-12">
               <h1 className="text-3xl md:text-4xl font-grotesk-black text-gray-900 mb-4">
                 Intelligence{' '}
                 <span className="text-yellow-400 mx-2 font-grotesk-black">\</span>
                 Services
-              </h1>
+            </h1>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
                 Access our comprehensive suite of AI-powered chatbots and analytics platforms
-              </p>
-            </div>
+            </p>
+          </div>
 
             {/* Services Grid - 3 columnas más angostas */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
               {services.map((service, index) => {
                 const IconComponent = service.icon;
                 return (
-                  <div
-                    key={service.id}
+                    <div
+                      key={service.id}
                     onClick={() => handleServiceClick(service.url)}
                     className={`${service.bgColor} rounded-xl border-2 p-4 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-lg group ${
                       service.url ? 'cursor-pointer' : 'cursor-default'
@@ -132,18 +132,18 @@ export default function Services() {
                     <div className="flex items-center gap-3 mb-4">
                       <div className={`w-10 h-10 bg-gradient-to-br ${service.color} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-md`}>
                         <IconComponent className="w-5 h-5 text-white" />
-                      </div>
+                        </div>
                       <div className="flex-1">
                         <h2 className="text-lg font-grotesk-bold text-gray-900 group-hover:text-gray-700 transition-colors duration-300">
                           {service.name}
                         </h2>
                       </div>
-                    </div>
+                      </div>
 
                     {/* Descripción */}
                     <p className="text-gray-700 leading-relaxed mb-4 text-sm group-hover:text-gray-800 transition-colors duration-300 flex-grow">
-                      {service.description}
-                    </p>
+                        {service.description}
+                      </p>
 
                     {/* Footer con tag de tipo de servicio */}
                     <div className="flex items-center justify-between mt-auto">
@@ -258,7 +258,7 @@ export default function Services() {
                     <ExternalLink className="w-3 h-3" />
                   </a>
                 </div>
-              </div>
+          </div>
 
               {/* Teams Alternative */}
               <div className="mt-6 text-center">
