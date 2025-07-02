@@ -26,33 +26,36 @@ const services: ServiceItem[] = [
     name: 'GWI Core',
     description: 'Advanced AI chatbot for global market intelligence and consumer insights',
     category: 'Global Intelligence',
-    status: 'coming-soon',
+    status: 'active',
     icon: Bot,
     color: 'from-purple-600 to-purple-800',
     bgColor: 'bg-purple-50 border-purple-200',
-    tag: 'Chatbot & Virtual Assistant'
+    tag: 'Chatbot & Virtual Assistant',
+    url: 'https://gwi-core-chatbot.vercel.app/'
   },
   {
     id: 'gwi-travel',
     name: 'GWI Travel',
     description: 'Specialized travel and tourism intelligence virtual assistant',
     category: 'Travel Intelligence',
-    status: 'coming-soon',
+    status: 'active',
     icon: Bot,
     color: 'from-emerald-500 to-teal-600',
     bgColor: 'bg-emerald-50 border-emerald-200',
-    tag: 'Chatbot & Virtual Assistant'
+    tag: 'Chatbot & Virtual Assistant',
+    url: 'https://gwi-travel-chatbot.vercel.app/'
   },
   {
     id: 'gwi-usa',
     name: 'GWI USA',
     description: 'US-focused market intelligence and consumer behavior chatbot',
     category: 'US Market Intelligence',
-    status: 'coming-soon',
+    status: 'active',
     icon: Bot,
     color: 'from-pink-500 to-pink-700',
     bgColor: 'bg-pink-50 border-pink-200',
-    tag: 'Chatbot & Virtual Assistant'
+    tag: 'Chatbot & Virtual Assistant',
+    url: 'https://gwi-usa-chatbot.vercel.app/'
   },
   {
     id: 'ad-investment',
@@ -146,8 +149,8 @@ export default function Services() {
                       </p>
 
                     {/* Footer con tag de tipo de servicio */}
-                    <div className="flex items-center justify-between mt-auto">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    <div className="flex flex-col gap-3 mt-auto">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium w-fit ${
                         service.tag === 'Chatbot & Virtual Assistant' 
                           ? 'bg-purple-100 text-purple-700 border border-purple-200' 
                           : 'bg-blue-100 text-blue-700 border border-blue-200'
@@ -160,12 +163,12 @@ export default function Services() {
                             e.stopPropagation();
                             handleServiceClick(service.url);
                           }}
-                          className={`group px-4 py-2 bg-gradient-to-r ${service.color} text-white font-medium text-xs rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105 transform hover:-translate-y-0.5 relative overflow-hidden`}
+                          className={`group px-4 py-2 bg-gradient-to-r ${service.color} text-white font-medium text-xs rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105 transform hover:-translate-y-0.5 relative overflow-hidden w-full`}
                         >
                           {/* Efecto shine */}
                           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
                           
-                          <div className="relative flex items-center gap-1.5">
+                          <div className="relative flex items-center justify-center gap-1.5">
                             <ExternalLink className="w-3 h-3" />
                             Open App
                           </div>
