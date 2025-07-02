@@ -1,13 +1,9 @@
 import React from 'react';
 import { 
-  MessageSquare, 
-  BarChart3, 
   Users, 
   ExternalLink,
   Bot,
-  TrendingUp,
-  Globe,
-  MapPin
+  TrendingUp
 } from 'lucide-react';
 import Header from './Header';
 

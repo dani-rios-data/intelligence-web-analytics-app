@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { ExternalLink, BarChart3, Settings, Clock, CheckCircle, ChevronDown, ChevronUp, TrendingUp, MapPin, Building, CreditCard, Banknote } from 'lucide-react';
 import Header from './Header';
 import '../styles/project-animations.css';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Mail, Users } from 'lucide-react';
 
 interface CustomProject {
   id: string;
