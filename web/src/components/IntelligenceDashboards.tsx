@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ExternalLink, BarChart3, Settings, Clock, CheckCircle, ChevronDown, ChevronUp, TrendingUp, MapPin, Building, CreditCard, Banknote } from 'lucide-react';
 import Header from './Header';
 import '../styles/project-animations.css';
@@ -16,17 +16,6 @@ interface CustomProject {
 }
 
 const customProjects: CustomProject[] = [
-  {
-    id: 'audience',
-    name: 'Audience Analytics',
-    description: 'Advanced audience segmentation and behavioral analysis dashboard',
-    url: 'https://dani-rios-data.github.io/audience/',
-    category: 'Marketing Analytics',
-    status: 'active',
-    icon: TrendingUp,
-    color: 'from-purple-500 to-indigo-600',
-    type: 'analytics'
-  },
   {
     id: 'qatar-tourism',
     name: 'Qatar Tourism Dashboard',
@@ -70,6 +59,17 @@ const customProjects: CustomProject[] = [
     icon: CreditCard,
     color: 'from-orange-500 to-red-600',
     type: 'finance'
+  },
+  {
+    id: 'audience',
+    name: 'Audience Analytics',
+    description: 'Advanced audience segmentation and behavioral analysis dashboard',
+    url: 'https://dani-rios-data.github.io/audience/',
+    category: 'Marketing Analytics',
+    status: 'active',
+    icon: TrendingUp,
+    color: 'from-purple-500 to-indigo-600',
+    type: 'analytics'
   }
 ];
 
@@ -82,56 +82,13 @@ export default function IntelligenceDashboards() {
   ];
 
   const handleProjectClick = (url: string) => {
+    console.log('Opening URL:', url); // Para debug
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   const handleCustomDashboardClick = () => {
     setShowCustomProjects(!showCustomProjects);
   };
-
-  // Add micro-interactions for enhanced animations
-  useEffect(() => {
-    if (showCustomProjects) {
-      const cards = document.querySelectorAll('.project-card') as NodeListOf<HTMLElement>;
-      const buttons = document.querySelectorAll('.project-btn') as NodeListOf<HTMLElement>;
-      
-      // Enhanced hover effects for cards
-      cards.forEach(card => {
-        const handleMouseEnter = () => {
-          card.style.transform = 'translateY(-12px) scale(1.02)';
-        };
-        
-        const handleMouseLeave = () => {
-          card.style.transform = 'translateY(0) scale(1)';
-        };
-
-        card.addEventListener('mouseenter', handleMouseEnter);
-        card.addEventListener('mouseleave', handleMouseLeave);
-
-        return () => {
-          card.removeEventListener('mouseenter', handleMouseEnter);
-          card.removeEventListener('mouseleave', handleMouseLeave);
-        };
-      });
-
-      // Click animation for buttons
-      buttons.forEach(btn => {
-        const handleClick = (e: Event) => {
-          e.stopPropagation();
-          btn.style.transform = 'scale(0.95)';
-          setTimeout(() => {
-            btn.style.transform = 'scale(1)';
-          }, 150);
-        };
-
-        btn.addEventListener('click', handleClick);
-
-        return () => {
-          btn.removeEventListener('click', handleClick);
-        };
-      });
-    }
-  }, [showCustomProjects]);
 
   return (
     <div className="min-h-screen flex flex-col transition-colors duration-300" style={{ backgroundColor: '#121212' }}>
@@ -268,48 +225,47 @@ export default function IntelligenceDashboards() {
         
         {/* Custom Projects Section - Full Width */}
         {showCustomProjects && (
-          <div className="w-full bg-white py-12 animate-fade-in-up">
+          <div className="w-full bg-white py-10 animate-fade-in-up">
             <div className="max-w-6xl mx-auto px-8">
-              <h2 className="text-2xl font-grotesk-bold text-gray-900 mb-2">Available Custom Projects</h2>
-              <p className="text-gray-600 mb-6">Explore our personalized dashboards in production</p>
+              <h2 className="text-lg font-grotesk-bold text-gray-900 mb-2">Available Custom Projects</h2>
+              <p className="text-gray-600 mb-5 text-sm">Explore our personalized dashboards in production</p>
               
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
                 {customProjects.map((project, index) => {
                   const IconComponent = project.icon;
                   return (
                     <div
                       key={project.id}
-                      className={`project-card ${project.type} bg-white rounded-2xl border border-gray-200 p-6 cursor-pointer shadow-lg min-h-[360px] flex flex-col relative transition-all duration-300 hover:shadow-xl hover:transform hover:scale-[1.02]`}
+                      className={`project-card ${project.type} bg-white rounded-xl border border-gray-200 p-4 cursor-pointer shadow-lg min-h-[200px] flex flex-col relative transition-all duration-300 hover:shadow-xl hover:transform hover:scale-[1.02]`}
                       style={{ animationDelay: `${(index + 1) * 0.1}s` }}
                     >
-                      {/* External Link Icon */}
-                      <ExternalLink className="external-link absolute top-6 right-6 w-5 h-5 text-gray-400" />
-
                       {/* Project Header with Icon and Title */}
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className={`project-icon w-12 h-12 rounded-xl bg-gradient-to-br ${project.color} flex items-center justify-center shadow-lg`}>
-                          <IconComponent className="w-5 h-5 text-white" />
+                      <div className="flex items-center gap-2.5 mb-2.5">
+                        <div className={`project-icon w-8 h-8 rounded-lg bg-gradient-to-br ${project.color} flex items-center justify-center shadow-lg`}>
+                          <IconComponent className="w-3.5 h-3.5 text-white" />
                         </div>
-                        <h3 className="project-title text-xl font-grotesk-bold text-gray-900 leading-tight">
+                        <h3 className="project-title text-base font-grotesk-bold text-gray-900 leading-tight">
                           {project.name}
                         </h3>
                       </div>
 
                       {/* Project Description - Flexible height */}
-                      <p className="project-description text-gray-600 text-sm leading-relaxed flex-grow mb-6">
+                      <p className="project-description text-gray-600 text-xs leading-relaxed flex-grow mb-3">
                         {project.description}
                       </p>
 
                       {/* Action Button - Always at bottom */}
                       <button 
                         onClick={(e) => {
+                          e.preventDefault();
                           e.stopPropagation();
                           handleProjectClick(project.url);
                         }}
-                        className="project-btn w-full text-white font-semibold px-6 py-3 rounded-xl text-sm mt-auto bg-gradient-to-r hover:shadow-lg transition-all duration-300 hover:scale-105 transform hover:-translate-y-0.5"
+                        className="project-btn w-full text-white font-semibold px-3 py-2 rounded-lg text-xs mt-auto bg-gradient-to-r hover:shadow-lg transition-all duration-300 hover:scale-105 transform hover:-translate-y-0.5 flex items-center justify-center gap-1.5"
                         style={{ background: `linear-gradient(135deg, ${project.color.split(' ')[1]}, ${project.color.split(' ')[3]})` }}
                       >
-                        View Dashboard
+                        <ExternalLink className="w-3 h-3" />
+                        <span>View Dashboard</span>
                       </button>
                     </div>
                   );
@@ -317,84 +273,84 @@ export default function IntelligenceDashboards() {
               </div>
 
               {/* Contact Analytics Team Section */}
-              <div className="mt-12 bg-gray-100 rounded-xl p-6 border border-gray-200">
-                <div className="text-center mb-6">
-                  <h3 className="text-xl font-grotesk-bold text-gray-900 mb-2">Need a Special Project Dashboard?</h3>
-                  <p className="text-gray-600 text-sm max-w-2xl mx-auto">
+              <div className="mt-10 bg-gray-100 rounded-xl p-4 border border-gray-200">
+                <div className="text-center mb-4">
+                  <h3 className="text-base font-grotesk-bold text-gray-900 mb-1">Need a Special Project Dashboard?</h3>
+                  <p className="text-gray-600 text-xs max-w-2xl mx-auto">
                     Working on a unique client account? Our Data Strategy team can help create tailored insights.
                   </p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+                <div className="grid md:grid-cols-3 gap-2.5 max-w-4xl mx-auto">
                   {/* Mehdi Mollahasani */}
-                  <div className="bg-white rounded-lg p-4 border border-gray-100 hover:shadow-md transition-all duration-300">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <div className="bg-white rounded-lg p-2.5 border border-gray-100 hover:shadow-md transition-all duration-300 min-h-[75px] flex flex-col">
+                    <div className="flex items-center gap-1.5 mb-1.5">
+                      <div className="w-5 h-5 bg-blue-100 rounded-md flex items-center justify-center">
                         <img 
                           src="/images/Microsoft_Office_Outlook_(2018–present).svg" 
                           alt="Email" 
-                          className="w-4 h-4"
+                          className="w-2.5 h-2.5"
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-grotesk-bold text-gray-900 text-sm">Mehdi Mollahasani</h4>
+                        <h4 className="font-grotesk-bold text-gray-900 text-xs">Mehdi Mollahasani</h4>
                         <p className="text-xs text-blue-600">Director, Data Strategy</p>
                       </div>
                     </div>
                     <a 
                       href="mailto:mehdi.mollahasani@tbwachiat.com"
-                      className="inline-flex items-center gap-1 text-xs text-gray-600 hover:text-blue-600 transition-colors duration-300 mt-3"
+                      className="inline-flex items-center gap-1 text-xs text-gray-600 hover:text-blue-600 transition-colors duration-300 mt-auto bg-blue-50 hover:bg-blue-100 px-1.5 py-0.5 rounded-md"
                     >
                       <span>mehdi.mollahasani@tbwachiat.com</span>
-                      <ExternalLink className="w-3 h-3" />
+                      <ExternalLink className="w-2 h-2" />
                     </a>
                   </div>
 
                   {/* Oscar Perez */}
-                  <div className="bg-white rounded-lg p-4 border border-gray-100 hover:shadow-md transition-all duration-300">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <div className="bg-white rounded-lg p-2.5 border border-gray-100 hover:shadow-md transition-all duration-300 min-h-[75px] flex flex-col">
+                    <div className="flex items-center gap-1.5 mb-1.5">
+                      <div className="w-5 h-5 bg-purple-100 rounded-md flex items-center justify-center">
                         <img 
                           src="/images/Microsoft_Office_Outlook_(2018–present).svg" 
                           alt="Email" 
-                          className="w-4 h-4"
+                          className="w-2.5 h-2.5"
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-grotesk-bold text-gray-900 text-sm">Oscar Perez</h4>
+                        <h4 className="font-grotesk-bold text-gray-900 text-xs">Oscar Perez</h4>
                         <p className="text-xs text-purple-600">Senior Data Strategist</p>
                       </div>
                     </div>
                     <a 
                       href="mailto:oscar.perez@tbwachiat.com"
-                      className="inline-flex items-center gap-1 text-xs text-gray-600 hover:text-purple-600 transition-colors duration-300 mt-3"
+                      className="inline-flex items-center gap-1 text-xs text-gray-600 hover:text-purple-600 transition-colors duration-300 mt-auto bg-purple-50 hover:bg-purple-100 px-1.5 py-0.5 rounded-md"
                     >
                       <span>oscar.perez@tbwachiat.com</span>
-                      <ExternalLink className="w-3 h-3" />
+                      <ExternalLink className="w-2 h-2" />
                     </a>
                   </div>
 
                   {/* Daniela Rios */}
-                  <div className="bg-white rounded-lg p-4 border border-gray-100 hover:shadow-md transition-all duration-300">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-teal-100 rounded-lg flex items-center justify-center">
+                  <div className="bg-white rounded-lg p-2.5 border border-gray-100 hover:shadow-md transition-all duration-300 min-h-[75px] flex flex-col">
+                    <div className="flex items-center gap-1.5 mb-1.5">
+                      <div className="w-5 h-5 bg-teal-100 rounded-md flex items-center justify-center">
                         <img 
                           src="/images/Microsoft_Office_Outlook_(2018–present).svg" 
                           alt="Email" 
-                          className="w-4 h-4"
+                          className="w-2.5 h-2.5"
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-grotesk-bold text-gray-900 text-sm">Daniela Rios</h4>
+                        <h4 className="font-grotesk-bold text-gray-900 text-xs">Daniela Rios</h4>
                         <p className="text-xs text-teal-600">Senior Data Analyst</p>
                       </div>
                     </div>
                     <a 
                       href="mailto:daniela.rios@tbwachiat.com"
-                      className="inline-flex items-center gap-1 text-xs text-gray-600 hover:text-teal-600 transition-colors duration-300 mt-3"
+                      className="inline-flex items-center gap-1 text-xs text-gray-600 hover:text-teal-600 transition-colors duration-300 mt-auto bg-teal-50 hover:bg-teal-100 px-1.5 py-0.5 rounded-md"
                     >
                       <span>daniela.rios@tbwachiat.com</span>
-                      <ExternalLink className="w-3 h-3" />
+                      <ExternalLink className="w-2 h-2" />
                     </a>
                   </div>
                 </div>
