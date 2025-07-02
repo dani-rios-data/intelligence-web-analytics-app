@@ -279,30 +279,36 @@ export default function IntelligenceDashboards() {
                   return (
                     <div
                       key={project.id}
-                      onClick={() => handleProjectClick(project.url)}
-                      className={`project-card ${project.type} bg-white rounded-2xl border border-gray-200 p-8 cursor-pointer shadow-lg`}
+                      className={`project-card ${project.type} bg-white rounded-2xl border border-gray-200 p-6 cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 hover:transform hover:scale-105 flex flex-col h-full`}
                       style={{ animationDelay: `${(index + 1) * 0.1}s` }}
                     >
                       {/* External Link Icon */}
-                      <ExternalLink className="external-link absolute top-6 right-6 w-5 h-5 text-gray-400" />
+                      <ExternalLink className="external-link absolute top-4 right-4 w-4 h-4 text-gray-400" />
 
                       {/* Project Header with Icon and Title */}
-                      <div className="flex items-center gap-4 mb-6">
-                        <div className={`project-icon w-12 h-12 rounded-xl bg-gradient-to-br ${project.color} flex items-center justify-center shadow-lg`}>
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className={`project-icon w-10 h-10 rounded-xl bg-gradient-to-br ${project.color} flex items-center justify-center shadow-lg`}>
                           <IconComponent className="w-5 h-5 text-white" />
                         </div>
-                        <h3 className="project-title text-xl font-grotesk-bold text-gray-900 leading-tight">
+                        <h3 className="project-title text-lg font-grotesk-bold text-gray-900 leading-tight">
                           {project.name}
                         </h3>
                       </div>
 
-                      {/* Project Description */}
-                      <p className="project-description text-gray-600 text-sm leading-relaxed mb-8">
+                      {/* Project Description - Flex grow para ocupar espacio disponible */}
+                      <p className="project-description text-gray-600 text-sm leading-relaxed mb-6 flex-grow">
                         {project.description}
                       </p>
 
-                      {/* Action Button */}
-                      <button className="project-btn w-full text-white font-semibold px-6 py-3 rounded-xl text-sm">
+                      {/* Action Button - Siempre en la parte inferior */}
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleProjectClick(project.url);
+                        }}
+                        className="project-btn w-full bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white font-grotesk-semibold px-4 py-3 rounded-xl text-sm transition-all duration-300 hover:transform hover:scale-105 flex items-center justify-center gap-2 mt-auto"
+                      >
+                        <ExternalLink className="w-4 h-4" />
                         View Dashboard
                       </button>
                     </div>
