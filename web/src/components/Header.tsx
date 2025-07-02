@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   LogOut,
   Menu as MenuIcon,
@@ -21,6 +21,7 @@ interface HeaderProps {
 
 export default function Header({ breadcrumbs = [] }: HeaderProps) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
@@ -28,21 +29,47 @@ export default function Header({ breadcrumbs = [] }: HeaderProps) {
     navigate('/signin');
   };
 
+  // Función inteligente para determinar la ruta padre
+  const getParentRoute = () => {
+    const currentPath = location.pathname;
+    
+    switch (currentPath) {
+      case '/services':
+      case '/dashboard':
+        return '/menu';
+      default:
+        return '/menu';
+    }
+  };
+
+  const handleBackClick = () => {
+    const parentRoute = getParentRoute();
+    navigate(parentRoute);
+  };
+
+  // Determinar si mostrar la flecha de volver
+  const shouldShowBackButton = () => {
+    const currentPath = location.pathname;
+    return currentPath !== '/signin' && currentPath !== '/menu';
+  };
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-gray-800/50 shadow-xl">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-gray-800/50">
       <div className="absolute inset-0 bg-gradient-to-r from-black via-gray-900 to-black opacity-80"></div>
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-12">
           {/* Logo and Navigation */}
           <div className="flex items-center gap-2">
-            {/* Back Button */}
-            <button
-              onClick={() => navigate(-1)}
-              className="p-1.5 hover:bg-gray-600/20 rounded-lg transition-all duration-300 group"
-              title="Volver"
-            >
-              <ArrowLeft className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors duration-300" />
-            </button>
+            {/* Back Button - Solo mostrar si no estamos en signin */}
+            {shouldShowBackButton() && (
+              <button
+                onClick={handleBackClick}
+                className="p-1.5 hover:bg-gray-600/20 rounded-lg transition-all duration-300 group"
+                title="Volver"
+              >
+                <ArrowLeft className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors duration-300" />
+              </button>
+            )}
             
             {/* Home Icon */}
             <button
@@ -124,13 +151,15 @@ export default function Header({ breadcrumbs = [] }: HeaderProps) {
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-gray-700/50 py-3 backdrop-blur-sm">
             <div className="flex flex-col gap-2">
-              <button
-                onClick={() => navigate(-1)}
-                className="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-gray-200 hover:bg-gray-600/10 rounded-lg transition-all duration-300 text-sm font-medium"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Volver
-              </button>
+              {shouldShowBackButton() && (
+                <button
+                  onClick={handleBackClick}
+                  className="flex items-center gap-2 px-3 py-2 text-gray-400 hover:text-gray-200 hover:bg-gray-600/10 rounded-lg transition-all duration-300 text-sm font-medium"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  Volver
+                </button>
+              )}
               
               <button
                 onClick={() => navigate('/menu')}

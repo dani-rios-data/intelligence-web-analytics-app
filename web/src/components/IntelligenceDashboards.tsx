@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ExternalLink, BarChart3, Settings, Clock, CheckCircle, ChevronDown, ChevronUp, TrendingUp, MapPin, Building, CreditCard, Banknote } from 'lucide-react';
 import Header from './Header';
 import '../styles/project-animations.css';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, Mail, Users } from 'lucide-react';
 
 interface CustomProject {
   id: string;
@@ -154,67 +156,111 @@ export default function IntelligenceDashboards() {
               </p>
             </div>
 
-            {/* Dashboard Types Overview */}
-            <div className="grid lg:grid-cols-2 gap-8 mb-12 max-w-5xl mx-auto">
-              {/* Custom Dashboards */}
+            {/* Dashboard Types Overview - Nuevo Diseño */}
+            <div className="grid lg:grid-cols-2 gap-6 mb-12 max-w-5xl mx-auto">
+              {/* Custom Dashboards - Rediseñado */}
               <div 
                 onClick={handleCustomDashboardClick}
-                className="bg-gradient-to-br from-teal-500/10 to-cyan-400/5 rounded-xl border border-gray-700 hover:border-teal-500/50 p-6 cursor-pointer transition-all duration-300 hover:transform hover:scale-105 group"
+                className="group relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl border border-gray-700/50 hover:border-teal-400/50 p-6 cursor-pointer transition-all duration-500 hover:transform hover:scale-[1.02] hover:shadow-2xl hover:shadow-teal-500/10 overflow-hidden"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-cyan-400 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <BarChart3 className="w-5 h-5 text-white" />
+                {/* Fondo decorativo animado */}
+                <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 via-transparent to-cyan-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-teal-400/10 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                
+                <div className="relative z-10">
+                  {/* Header con icono destacado */}
+                  <div className="flex items-start justify-between mb-5">
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <div className="w-12 h-12 bg-gradient-to-br from-teal-400 via-teal-500 to-cyan-500 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg group-hover:shadow-teal-400/25">
+                          <BarChart3 className="w-6 h-6 text-white" />
+                        </div>
+                        <div className="absolute -inset-1 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-xl opacity-0 group-hover:opacity-20 blur transition-opacity duration-500"></div>
+                      </div>
+                      <div>
+                        <h2 className="text-xl font-grotesk-black text-white group-hover:text-teal-300 transition-colors duration-300">
+                          Custom Dashboards
+                        </h2>
+                        <div className="flex items-center gap-2 mt-1">
+                          <div className="w-1.5 h-1.5 bg-teal-400 rounded-full animate-pulse"></div>
+                          <span className="text-teal-400 font-medium text-xs tracking-wide">100% CUSTOM BUILT</span>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <h2 className="text-xl font-grotesk-bold text-white group-hover:text-teal-400 transition-colors duration-300">Custom Dashboards</h2>
-                      <p className="text-teal-400 font-medium text-sm">100% Custom Built</p>
+                    <div className="text-teal-400 group-hover:scale-110 group-hover:rotate-180 transition-all duration-500">
+                      {showCustomProjects ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                     </div>
                   </div>
-                  <div className="text-teal-400 group-hover:scale-110 transition-transform duration-300">
-                    {showCustomProjects ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+
+                  {/* Descripción mejorada */}
+                  <p className="text-gray-300 leading-relaxed mb-5 text-sm group-hover:text-gray-200 transition-colors duration-300">
+                    Fully customized dashboards designed specifically for unique projects. 
+                    Each solution is tailored for specific client needs and business objectives.
+                  </p>
+
+                  {/* Footer con estado y acción */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2 bg-teal-500/10 px-2.5 py-1 rounded-full border border-teal-400/20">
+                        <CheckCircle className="w-3.5 h-3.5 text-teal-400" />
+                        <span className="text-teal-300 font-medium text-xs">Available Now</span>
+                      </div>
+                    </div>
+                    <div className="text-xs text-gray-500 group-hover:text-teal-400 transition-colors duration-300 font-medium">
+                      Click to explore →
+                    </div>
                   </div>
-                </div>
-                <p className="text-gray-300 leading-relaxed mb-3 text-sm group-hover:text-gray-200 transition-colors duration-300">
-                  Fully customized dashboards designed specifically for unique projects. 
-                  Each solution is tailored for specific client needs and business objectives.
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-teal-400">
-                    <CheckCircle className="w-3 h-3" />
-                    <span className="text-xs font-medium">Available Now</span>
-                  </div>
-                  <span className="text-xs text-gray-500 group-hover:text-teal-400 transition-colors duration-300">
-                    Click to view library
-                  </span>
                 </div>
               </div>
 
-              {/* CSV Platform Dashboards */}
-              <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/5 rounded-xl border border-gray-700 p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
-                    <Settings className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-grotesk-bold text-white">Platform Dashboards</h2>
-                    <p className="text-blue-400 font-medium text-sm">CSV Data Integration</p>
-                  </div>
-                </div>
-                <p className="text-gray-300 leading-relaxed mb-3 text-sm">
-                  Automated dashboards that read CSV data from platforms TBWA pays for. 
-                  These replace manual reports with automatically updated insights.
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="relative">
-                      <Clock className="w-3 h-3 text-orange-400 animate-pulse" />
-                      <div className="absolute inset-0 bg-orange-400 rounded-full animate-ping opacity-20"></div>
+              {/* Platform Dashboards - Rediseñado */}
+              <div className="group relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl border border-gray-700/50 hover:border-purple-400/50 p-6 transition-all duration-500 hover:transform hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/10 overflow-hidden">
+                {/* Fondo decorativo animado */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-400/10 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+                
+                <div className="relative z-10">
+                  {/* Header con icono destacado */}
+                  <div className="flex items-start justify-between mb-5">
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <div className="w-12 h-12 bg-gradient-to-br from-purple-400 via-purple-500 to-blue-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-all duration-500 shadow-lg group-hover:shadow-purple-400/25">
+                          <Settings className="w-6 h-6 text-white" style={{ animation: 'spin 4s linear infinite' }} />
+                        </div>
+                        <div className="absolute -inset-1 bg-gradient-to-br from-purple-400 to-blue-500 rounded-xl opacity-0 group-hover:opacity-20 blur transition-opacity duration-500"></div>
+                      </div>
+                      <div>
+                        <h2 className="text-xl font-grotesk-black text-white group-hover:text-purple-300 transition-colors duration-300">
+                          Platform Dashboards
+                        </h2>
+                        <div className="flex items-center gap-2 mt-1">
+                          <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-pulse"></div>
+                          <span className="text-purple-400 font-medium text-xs tracking-wide">CSV DATA INTEGRATION</span>
+                        </div>
+                      </div>
                     </div>
-                    <span className="text-xs font-bold text-orange-400 animate-pulse">Under Construction</span>
                   </div>
-                  <div className="text-xs text-gray-500">
-                    Coming Soon
+
+                  {/* Descripción mejorada */}
+                  <p className="text-gray-300 leading-relaxed mb-5 text-sm group-hover:text-gray-200 transition-colors duration-300">
+                    Automated dashboards that read CSV data from platforms TBWA pays for. 
+                    These replace manual reports with automatically updated insights.
+                  </p>
+
+                  {/* Footer con estado de construcción mejorado */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2 bg-orange-500/10 px-2.5 py-1 rounded-full border border-orange-400/20">
+                        <div className="relative">
+                          <Clock className="w-3.5 h-3.5 text-orange-400" />
+                          <div className="absolute inset-0 bg-orange-400 rounded-full animate-ping opacity-30"></div>
+                        </div>
+                        <span className="text-orange-300 font-medium text-xs">Under Construction</span>
+                      </div>
+                    </div>
+                    <div className="text-xs text-gray-500 group-hover:text-purple-400 transition-colors duration-300 font-medium">
+                      Coming Soon
+                    </div>
                   </div>
                 </div>
               </div>
